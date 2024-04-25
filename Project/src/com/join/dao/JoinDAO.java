@@ -3,7 +3,7 @@ package com.join.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-
+import java.sql.ResultSet;
 
 import com.join.VO.JoinVo;
 
@@ -50,4 +50,24 @@ public class JoinDAO {
             e.printStackTrace();
         }
     }
+	public boolean isIdExist(String id) {
+		boolean result = false;
+		ResultSet rs = null;
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, user, password);
+			String sql = "SELECT ID FROM USERINFOTEST WHERE ID = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = true;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			closeResources();
+		}
+		return result;
+	}
 }

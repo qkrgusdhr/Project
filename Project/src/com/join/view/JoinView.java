@@ -10,7 +10,7 @@ import java.awt.BorderLayout;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 
-import java.awt.FlowLayout;
+
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -19,7 +19,7 @@ import javax.swing.border.MatteBorder;
 
 import com.join.VO.JoinVo;
 import com.join.dao.JoinDAO;
-import com.user.vo.LoginVO;
+
 
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
@@ -92,6 +92,13 @@ public class JoinView{
 		JButton btnNewButton = new JButton("중복검사");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String id = textID.getText();
+				JoinDAO joinDAO = new JoinDAO();
+				if(joinDAO.isIdExist(id)) {
+					JOptionPane.showMessageDialog(btnNewButton, "이미 사용중인 ID입니다.");
+				}else {
+					JOptionPane.showMessageDialog(btnNewButton, "사용가능한 ID입니다.");
+				}
 			}
 		});
 		btnNewButton.setBounds(391, 138, 91, 23);
