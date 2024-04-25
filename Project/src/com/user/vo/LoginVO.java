@@ -1,10 +1,10 @@
 package com.user.vo;
 
-public class UserVO {
+public class LoginVO {
 	private String id;
 	private String pw;
 
-	public UserVO(String id, String pw) {
+	public LoginVO(String id, String pw) {
 		 this.id = id;
 		 this.pw = pw;
 	}

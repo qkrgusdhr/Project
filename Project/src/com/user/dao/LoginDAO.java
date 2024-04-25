@@ -2,9 +2,9 @@ package com.user.dao;
 
 import java.sql.*;
 import java.util.ArrayList;
-import com.user.vo.UserVO;
+import com.user.vo.LoginVO;
 
-public class UserDAO {
+public class LoginDAO {
     private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String URL = "jdbc:oracle:thin:@localhost:1521/xe";
     private static final String USER = "green";
@@ -14,8 +14,8 @@ public class UserDAO {
     private PreparedStatement pstmt;
     private ResultSet rs;
     
-    public ArrayList<UserVO> list(String id, String pw) {
-        ArrayList<UserVO> list = new ArrayList<>();
+    public ArrayList<LoginVO> list(String id, String pw) {
+        ArrayList<LoginVO> list = new ArrayList<>();
         String sql = "SELECT * FROM TEST WHERE ID = ? AND PW = ?";
         
         try {
@@ -28,7 +28,7 @@ public class UserDAO {
             while (rs.next()) {
                 String userId = rs.getString("id");
                 String userPw = rs.getString("pw");
-                UserVO userVO = new UserVO(userId, userPw);
+                LoginVO userVO = new LoginVO(userId, userPw);
                 list.add(userVO);
             }
         } catch (SQLException e) {

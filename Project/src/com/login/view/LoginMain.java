@@ -6,13 +6,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import com.user.dao.UserDAO;
-import com.user.vo.UserVO;
+import com.join.view.JoinView;
+import com.user.dao.LoginDAO;
+import com.user.vo.LoginVO;
 
 public class LoginMain {
 
@@ -39,6 +41,8 @@ public class LoginMain {
     public LoginMain() {
         initialize();
     }
+    
+    
 
     private void initialize() {
         frmEd = new JFrame();
@@ -48,6 +52,7 @@ public class LoginMain {
         frmEd.setBounds(100, 100, 364, 607);
         frmEd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmEd.getContentPane().setLayout(null);
+        frmEd.setResizable(false); 
 
         // ID 입력 필드
         textId = new JTextField();
@@ -77,6 +82,8 @@ public class LoginMain {
 	                }
 			}
 		});
+        
+        
         frmEd.getContentPane().add(textId);
 
         // 비밀번호 입력 필드
@@ -84,12 +91,39 @@ public class LoginMain {
         passwordField.setHorizontalAlignment(SwingConstants.LEFT);
         passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
         passwordField.setBounds(111, 325, 162, 30);
+        passwordField.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				btnNewButton.doClick();
+			}
+		}); // 엔터 처리
+        passwordField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				if(passwordField.getPassword().length == 0) {
+					passwordField.setText("123456");
+				}
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				if(Arrays.equals(passwordField.getPassword(), "123456".toCharArray())) {
+					passwordField.setText("");
+				}
+			}
+		});
         frmEd.getContentPane().add(passwordField);
+        
 
         // 로그인 버튼
         btnNewButton = new JButton("Login");
         btnNewButton.setForeground(Color.WHITE); // 텍스트 색상 설정
-        btnNewButton.setBackground(Color.BLUE); // 배경색 설정
+        btnNewButton.setBackground(new Color(221, 160, 221)); // 배경색 설정
         btnNewButton.setFont(new Font("Arial", Font.BOLD, 14)); // 폰트 설정
         btnNewButton.setBorder(new EmptyBorder(0, 0, 0, 0)); // 테두리 설정
         btnNewButton.setBounds(126, 407, 97, 23);
@@ -101,8 +135,8 @@ public class LoginMain {
 				String id = textId.getText();
 				String pw = new String(passwordField.getPassword());
 				
-				UserDAO userDAO = new UserDAO();
-				ArrayList<UserVO> res = userDAO.list(id, pw);
+				LoginDAO loginDAO  = new LoginDAO();
+				ArrayList<LoginVO> res = loginDAO.list(id, pw);
 				if(id.isEmpty() || pw.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "아이디와 패스워드를 확인하세요");
 				}else if(!res.isEmpty()){
@@ -140,6 +174,15 @@ public class LoginMain {
         btnJoin.setBorder(new EmptyBorder(0, 0, 0, 0));
         btnJoin.setBackground(Color.WHITE);
         btnJoin.setBounds(111, 441, 129, 23);
+        btnJoin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				JoinView view = new JoinView();
+				view.showWindow();
+			}
+		});
         frmEd.getContentPane().add(btnJoin);
     }
 }
