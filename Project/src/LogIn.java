@@ -29,7 +29,7 @@ public class LogIn extends JFrame{
                     JOptionPane.showMessageDialog(null, "Wrong ID or Password");
             }
             }
-        })
+        });
         add(panel);
 
         setVisible(true);

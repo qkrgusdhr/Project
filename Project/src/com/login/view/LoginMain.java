@@ -16,6 +16,8 @@ import com.join.view.JoinView;
 import com.user.dao.LoginDAO;
 import com.user.vo.LoginVO;
 
+import next.Screen;
+
 public class LoginMain {
 
     private JFrame frmEd;
@@ -141,6 +143,10 @@ public class LoginMain {
 					JOptionPane.showMessageDialog(null, "아이디와 패스워드를 확인하세요");
 				}else if(!res.isEmpty()){
 					JOptionPane.showMessageDialog(btnNewButton, "login!!");
+					Screen screen = new Screen();
+					frmEd.dispose();
+					screen.showWindow();
+					
 				}else {
 					JOptionPane.showMessageDialog(btnNewButton, "login fail");
 				}
