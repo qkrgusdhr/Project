@@ -142,13 +142,12 @@ public class LoginMain {
 				if(id.isEmpty() || pw.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "아이디와 패스워드를 확인하세요");
 				}else if(!res.isEmpty()){
-					JOptionPane.showMessageDialog(btnNewButton, "login!!");
-					Screen screen = new Screen();
+					Screen screen = new Screen(id);
 					frmEd.dispose();
 					screen.showWindow();
 					
 				}else {
-					JOptionPane.showMessageDialog(btnNewButton, "login fail");
+					showMessageDialogWithCutomDesign();
 				}
 			}
 		});
@@ -191,4 +190,23 @@ public class LoginMain {
 		});
         frmEd.getContentPane().add(btnJoin);
     }
+    private static void showMessageDialogWithCutomDesign() {
+    	JFrame frame = new JFrame();
+    	frame.dispose();
+    	JDialog dialog = new JDialog(frame, "Login Fail", true);
+    	JPanel jPanel = new JPanel();
+    	jPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+    	JLabel jLabel = new JLabel("Login Fail");
+    	jLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+    	jPanel.add(jLabel);
+    	
+    	dialog.getContentPane().add(jPanel);
+    	dialog.pack();
+    	dialog.setLocationRelativeTo(frame);
+    	dialog.setVisible(true);
+    	
+    	
+    }
+    
 }
+
