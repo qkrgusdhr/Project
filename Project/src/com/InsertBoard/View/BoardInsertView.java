@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import com.board.control.BoardDAO;
 import com.board.control.BoardDAOImpl;
 import com.board.control.boardVO;
+import com.boardlist.View.BoardListView;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -58,13 +59,19 @@ public class BoardInsertView {
 			public void actionPerformed(ActionEvent e) {
 				boardVO vo = new boardVO();
 				BoardDAO dao = new BoardDAOImpl();
-				String title = TitleField.getText(title);
+				String ntitle = TitleField.getText();
+				String nwriter = WriterField.getText();
+				String ncontent = ContentField.getText();
 				
 				
-				vo.setName(Writer);
-				vo.setTitle(title);
-				vo.setContent(Content);
+				vo.setName(nwriter);
+				vo.setTitle(ntitle);
+				vo.setContent(ncontent);
 				dao.insert(vo);
+				
+				frame.dispose();
+				BoardListView view = new BoardListView();
+				view.showWindow();
 			}
 		});
 		InsertBtn.setBounds(571, 453, 97, 23);
