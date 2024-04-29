@@ -58,15 +58,17 @@ public class BoardInsertView {
 			public void actionPerformed(ActionEvent e) {
 				boardVO vo = new boardVO();
 				BoardDAO dao = new BoardDAOImpl();
+				String title = TitleField.getText(title);
 				
+				
+				vo.setName(Writer);
+				vo.setTitle(title);
+				vo.setContent(Content);
+				dao.insert(vo);
 			}
 		});
 		InsertBtn.setBounds(571, 453, 97, 23);
 		frame.getContentPane().add(InsertBtn);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(91, 54, 5, 24);
-		frame.getContentPane().add(textArea);
 		
 		TitleField = new JTextField();
 		TitleField.setBounds(108, 70, 342, 31);
