@@ -49,8 +49,8 @@ public class BoardListView {
 		frame.getContentPane().setLayout(null);
 
 		tableModel = new DefaultTableModel();
-		BoardDAO dao = new BoardDAOImpl();
-		List<boardVO> boardData = dao.select();
+		
+		
 		
 		tableModel.addColumn("No.");
 		tableModel.addColumn("작성자");
@@ -64,7 +64,6 @@ public class BoardListView {
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setCellRenderer(centerRender);
 		}
-
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
