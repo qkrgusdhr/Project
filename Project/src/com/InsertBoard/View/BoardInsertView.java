@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import com.board.control.BoardDAO;
@@ -91,5 +90,9 @@ public class BoardInsertView {
 		ContentField.setBounds(108, 111, 485, 332);
 		frame.getContentPane().add(ContentField);
 		ContentField.setColumns(10);
+	}
+	
+	public void showWindow() {
+		frame.setVisible(true);
 	}
 }

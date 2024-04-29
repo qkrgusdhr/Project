@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.InsertBoard.View.BoardInsertView;
 import com.board.control.BoardDAO;
 import com.board.control.BoardDAOImpl;
 import com.board.control.boardVO;
@@ -15,6 +16,8 @@ import java.awt.*;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BoardListView {
 
@@ -25,6 +28,7 @@ public class BoardListView {
 	private int itemsPerPage;
 	private JLabel currentPageLabel;
 	private JButton nextButton; 
+	private JButton InsertBtn;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
@@ -40,7 +44,16 @@ public class BoardListView {
 	public BoardListView() {
 		initialize();
 		populateTable(1, 10);
-
+		InsertBtn = new JButton("게시물 등록");
+		InsertBtn.setBounds(573, 458, 124, 23);
+		frame.getContentPane().add(InsertBtn);
+		InsertBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BoardInsertView view = new BoardInsertView(null, null, null);
+				view.showWindow();
+				frame.dispose();
+			}
+		});
 	}
 
 	private void initialize() {
@@ -98,7 +111,7 @@ public class BoardListView {
 		});
 
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(98, 58, 599, 401);
+		scrollPane.setBounds(98, 56, 599, 401);
 		frame.getContentPane().add(scrollPane);
 
 		JPanel paginationPanel = new JPanel();
@@ -125,6 +138,8 @@ public class BoardListView {
 		nextButton.addActionListener(e -> {
 			currentPage++;
 			currentPageLabel.setText("Page: " + currentPage);
+			
+			
 			populateTable(currentPage, itemsPerPage);
 
 		});
