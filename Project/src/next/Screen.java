@@ -1,13 +1,12 @@
 package next;
 
 import java.awt.EventQueue;
-import java.util.ArrayList;
+
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-import com.user.dao.LoginDAO;
-import com.user.vo.LoginVO;
+
 
 public class Screen {
 

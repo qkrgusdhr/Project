@@ -17,4 +17,6 @@ public interface BoardDAO {
 	
 	public int getCount();
 	
+	public int selectBoard(boardVO vo);
+	
 }

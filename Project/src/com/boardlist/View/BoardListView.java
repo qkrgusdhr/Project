@@ -9,9 +9,6 @@ import com.board.control.BoardDAOImpl;
 import com.board.control.boardVO;
 import com.showPost.view.ShowPost;
 
-
-
-
 import java.util.List;
 
 import java.awt.*;
@@ -27,6 +24,7 @@ public class BoardListView {
 	private int currentPage = 1;
 	private int itemsPerPage;
 	private JLabel currentPageLabel;
+	private JButton nextButton; 
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
@@ -42,7 +40,7 @@ public class BoardListView {
 	public BoardListView() {
 		initialize();
 		populateTable(1, 10);
-		
+
 	}
 
 	private void initialize() {
@@ -51,11 +49,14 @@ public class BoardListView {
 		frame.getContentPane().setLayout(null);
 
 		tableModel = new DefaultTableModel();
-		tableModel.addColumn("게시판번호");
+		BoardDAO dao = new BoardDAOImpl();
+		List<boardVO> boardData = dao.select();
+		
+		tableModel.addColumn("No.");
 		tableModel.addColumn("작성자");
 		tableModel.addColumn("제목");
 		tableModel.addColumn("시간");
-
+		
 		table = new JTable(tableModel);
 		table.setShowGrid(false);
 		DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
@@ -71,14 +72,30 @@ public class BoardListView {
 					int column = table.columnAtPoint(e.getPoint());
 					int row = table.rowAtPoint(e.getPoint());
 					if (column == 2) { // 제목 열 클릭 시
-						String title = table.getValueAt(row, column).toString();
-						// 해당 게시글로 이동하는 로직을 작성 (예: 새로운 창을 열거나 화면을 전환하는 등)
-						System.out.println("클릭된 제목: " + title);
-						ShowPost post = new ShowPost();
-						post.showWindow();
+						String num = table.getValueAt(row, 0).toString();
+						int boardNum = Integer.parseInt(num);
+						// 해당 게시글로 이동
+						System.out.println("클릭된 제목: " + boardNum);
+
+						BoardDAO dao = new BoardDAOImpl();
+						boardVO vo = new boardVO();
+						vo.setNum(boardNum);
+						dao.selectBoard(vo);
+						String writer = vo.getName();
+						String title = vo.getTitle();
+						String content = vo.getContent();
+						if (writer != null && title != null && content != null) { // 데이터가 있는지 확인
+							// 데이터가 있다면 해당 정보를 이용하여 ShowPost 창을 열거나 처리합니다.
+							ShowPost post = new ShowPost(writer, title, content, boardNum);
+							post.showWindow();
+							frame.dispose();
+						} else {
+							System.out.println("게시글을 찾을수 없습니다.");
+						}
 					}
 				}
 			}
+
 		});
 
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -92,7 +109,7 @@ public class BoardListView {
 		populateTable(1, 10);
 		JButton prevButton = new JButton("Prev");
 		paginationPanel.add(prevButton);
-		
+
 		currentPageLabel = new JLabel("Page: " + currentPage);
 		paginationPanel.add(currentPageLabel);
 		prevButton.addActionListener(e -> {
@@ -103,15 +120,14 @@ public class BoardListView {
 			}
 		});
 
-		
 		currentPageLabel.setText("Page: " + currentPage);
-		JButton nextButton = new JButton("Next");
+		nextButton = new JButton("Next");
 		paginationPanel.add(nextButton);
 		nextButton.addActionListener(e -> {
-				currentPage++;
-				currentPageLabel.setText("Page: " + currentPage);
-				populateTable(currentPage, itemsPerPage);
-				
+			currentPage++;
+			currentPageLabel.setText("Page: " + currentPage);
+			populateTable(currentPage, itemsPerPage);
+
 		});
 		frame.setBounds(100, 100, 766, 563);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -128,14 +144,22 @@ public class BoardListView {
 		model.setRowCount(0); // 기존의 테이블 내용 삭제
 		int startIndex = (currentPage - 1) * itemsPerPage;
 		int endIndex = Math.min(startIndex + itemsPerPage, boardData.size());
+		int totalItems = boardData.size();
+		boolean isLastPage = endIndex >= totalItems;
 
-		// 첫 번째부터 10번째 게시글까지만 테이블에 추가
+		// 첫 번째부터 itemsPerPage번째 게시글까지만 테이블에 추가
 		for (int i = startIndex; i < endIndex; i++) {
-			model.addRow(boardData.get(i).toArray());
+			if (boardData.get(i) != null) {
+				model.addRow(boardData.get(i).toArray());
+			}
 		}
-		
-		
-
+		if (nextButton != null) {
+            nextButton.setEnabled(!isLastPage);
+        }
 	}
-	
+
+	public void showWindow() {
+		frame.setVisible(true);
+	}
+
 }
