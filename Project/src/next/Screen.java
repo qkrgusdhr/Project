@@ -1,17 +1,13 @@
+
 package next;
 
 import java.awt.EventQueue;
 
-
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-
-
 
 public class Screen {
 
 	private JFrame frame;
-	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -20,7 +16,7 @@ public class Screen {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Screen window = new Screen(null);
+					Screen window = new Screen();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,28 +28,22 @@ public class Screen {
 	/**
 	 * Create the application.
 	 */
-	public Screen(String id) {
-		initialize(id);
+	public Screen() {
+		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	public void initialize(String id) {
+	public void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 665, 632);
+		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		
-		
-		textField = new JTextField();
-		textField.setBounds(341, 68, 116, 21);
-		textField.setText(id);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
 	}
 	
 	public void showWindow() {
 		frame.setVisible(true);
 	}
+
 }
+

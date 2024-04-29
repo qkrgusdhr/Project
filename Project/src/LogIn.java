@@ -1,45 +1,57 @@
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class LogIn extends JFrame{
-    public LogIn(){
-        JPanel panel = new JPanel();
-        JTextField txtID = new JTextField(10);
-        JLabel label = new JLabel("ID : ");
-        JLabel pswrd = new JLabel("Password : ");
-        JPasswordField txtPass = new JPasswordField(10);
-        JButton logBtn = new JButton("Log In");
-
-
-        panel.add(label);
-        panel.add(txtID);
-        panel.add(pswrd);
-        panel.add(txtPass);
-        panel.add(logBtn);
-
-        logBtn.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                String id = "Dan";
-                String pass = "1234";
-
-                if(id.equals(txtID.getText()) && pass.equals(txtPass.getText())){
-                    JOptionPane.showMessageDialog(null, "Login Successful");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Wrong ID or Password");
-            }
-            }
-        });
-        add(panel);
-
-        setVisible(true);
-        setSize(500,500);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+public class LogIn{
+	
+    
+    private String id;
+    private String pwd;
+    private String name;
+    private String tel;
+    private String dogname;
+    private String dogsex;
+    private String dogbirth;
+    
+    public String getId() {
+    	return id;
     }
-
-    public static void main(String[] args) {
-        new LogIn();
+    
+    public void setId(String id) {
+    	this.id = id;
+    }
+    public String getPwd() {
+    	return pwd;
+    }
+    public void setPwd(String pwd) {
+    	this.pwd = pwd;
+    }
+    public String getName() {
+    	return name;
+    }
+    public void setName(String name) {
+    	this.name = name;
+    }
+    public String getTel() {
+    	return tel;
+    }
+    public void setTel(String tel) {
+    	this.tel = tel;
+    }
+    public String getDogname() {
+    	return dogname;
+    }
+    public void setDogname(String dogname) {
+    	this.dogname = dogname;
+    }
+    public String getDogsex() {
+    	return dogsex;
+    }
+    public void setDogsex(String dogsex) {
+    	this.dogsex = dogsex;
+    }
+    public String getDogbirth() {
+    	return dogbirth;
+    }
+    public void setDogbirth(String dogbirth) {
+    	this.dogbirth = dogbirth;
     }
 }
+    
