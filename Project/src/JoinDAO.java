@@ -1,13 +1,21 @@
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-public class LoginDAO {
-	private PreparedStatement pstmt;
+public class JoinDAO {
+	String driver = "oracle.jdbc.driver.OracleDriver";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String user = "c##green";
+	String password = "GREEN1234";
 	
-	Connection con;
+	private Connection con;
+	private Statement stmt;
+	private ResultSet rs;
+	
 	
 	public void getCon() {
 		
