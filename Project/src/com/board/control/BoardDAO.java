@@ -13,7 +13,7 @@ public interface BoardDAO {
 	
 	public List<boardVO> select();
 	
-	public void search(String search, String searchString);
+	public List<boardVO> search(String search, String searchString);
 	
 	public int getCount();
 	

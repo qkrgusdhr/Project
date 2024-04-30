@@ -27,8 +27,9 @@ public class BoardListView {
 	private int currentPage = 1;
 	private int itemsPerPage;
 	private JLabel currentPageLabel;
-	private JButton nextButton; 
+	private JButton nextButton;
 	private JButton InsertBtn;
+	private JTextField Searching;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
@@ -45,8 +46,7 @@ public class BoardListView {
 		initialize();
 		populateTable(1, 10);
 		InsertBtn = new JButton("게시물 등록");
-		InsertBtn.setBounds(573, 458, 124, 23);
-		frame.getContentPane().add(InsertBtn);
+		InsertBtn.setBounds(822, 652, 124, 23);
 		InsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BoardInsertView view = new BoardInsertView(null, null, null);
@@ -54,22 +54,61 @@ public class BoardListView {
 				frame.dispose();
 			}
 		});
+		frame.getContentPane().add(InsertBtn);
+		
+		JLabel lblNewLabel = new JLabel("검색조건");
+		lblNewLabel.setBounds(436, 23, 73, 23);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.setModel(new DefaultComboBoxModel<>(new String[] {"title", "content" , "writer"}));
+		comboBox.setBounds(521, 23, 104, 23);
+		frame.getContentPane().add(comboBox);
+		
+		Searching = new JTextField();
+		Searching.setBounds(637, 24, 209, 22);
+		frame.getContentPane().add(Searching);
+		Searching.setColumns(10);
+		
+		JButton btnNewButton = new JButton("search");
+		btnNewButton.setBounds(858, 23, 88, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				BoardDAO dao = new BoardDAOImpl();
+				List<boardVO> SearchResult = dao.search(String.valueOf(comboBox.getSelectedItem()), Searching.getText());
+				if(!SearchResult.isEmpty()) {
+					populateTableWithSearchResults(SearchResult);
+					
+				}else {
+					JOptionPane.showMessageDialog(btnNewButton, "검색 결과가 없습니다.");
+				}
+			}
+		});
+		frame.getContentPane().add(btnNewButton);
+		
 	}
 
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
-
+		
+		
+		
+		
+		
+		
+		
 		tableModel = new DefaultTableModel();
-		
-		
-		
+
 		tableModel.addColumn("No.");
 		tableModel.addColumn("작성자");
 		tableModel.addColumn("제목");
 		tableModel.addColumn("시간");
-		
+
 		table = new JTable(tableModel);
 		table.setShowGrid(false);
 		DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
@@ -77,6 +116,17 @@ public class BoardListView {
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setCellRenderer(centerRender);
 		}
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(45);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(2).setPreferredWidth(250);
+		table.getColumnModel().getColumn(3).setResizable(false);
+		table.getColumnModel().getColumn(3).setPreferredWidth(140);
+		table.setRowHeight(38);
+		table.setDragEnabled(false);
+		table.setDropMode(DropMode.USE_SELECTION);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -111,11 +161,11 @@ public class BoardListView {
 		});
 
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(98, 56, 599, 401);
+		scrollPane.setBounds(98, 56, 848, 586);
 		frame.getContentPane().add(scrollPane);
 
 		JPanel paginationPanel = new JPanel();
-		paginationPanel.setBounds(98, 491, 652, 33);
+		paginationPanel.setBounds(98, 685, 848, 33);
 		frame.getContentPane().add(paginationPanel);
 
 		populateTable(1, 10);
@@ -138,12 +188,11 @@ public class BoardListView {
 		nextButton.addActionListener(e -> {
 			currentPage++;
 			currentPageLabel.setText("Page: " + currentPage);
-			
-			
+
 			populateTable(currentPage, itemsPerPage);
 
 		});
-		frame.setBounds(100, 100, 766, 563);
+		frame.setBounds(100, 100, 974, 767);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
@@ -168,12 +217,22 @@ public class BoardListView {
 			}
 		}
 		if (nextButton != null) {
-            nextButton.setEnabled(!isLastPage);
-        }
+			nextButton.setEnabled(!isLastPage);
+		}
 	}
-
+	private void populateTableWithSearchResults(List<boardVO> searchResults) {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		
+		for(boardVO vo : searchResults) {
+			model.addRow(vo.toArray());
+		}
+		
+		currentPage = 1;
+		currentPageLabel.setText("Page : " + currentPage);
+		nextButton.setEnabled(false);
+	}
 	public void showWindow() {
 		frame.setVisible(true);
 	}
-
 }

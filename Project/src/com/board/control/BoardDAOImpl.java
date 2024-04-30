@@ -136,13 +136,15 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void search(String search, String searchString) {
+	public List<boardVO> search(String search, String searchString) {
 		// TODO Auto-generated method stub
 		List<boardVO> list = new ArrayList<boardVO>();
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "select num, title, content, reg_date, writer from boardtest where" + search + "like %";
+			String sql =  "SELECT num, title, content, reg_date, writer FROM boardtest WHERE " + search + " LIKE ?";
+
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "%" + searchString + "%");
 			res = pstmt.executeQuery();
 			while (res.next()) {
 				boardVO vo = new boardVO();
@@ -176,6 +178,7 @@ public class BoardDAOImpl implements BoardDAO {
 			e.printStackTrace();
 			// TODO: handle exception
 		}
+		return list;
 	}
 
 	@Override
