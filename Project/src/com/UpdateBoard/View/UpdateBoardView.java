@@ -1,11 +1,13 @@
 package com.UpdateBoard.View;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import com.board.control.BoardDAO;
 import com.board.control.BoardDAOImpl;
@@ -13,17 +15,22 @@ import com.board.control.boardVO;
 import com.boardlist.View.BoardListView;
 import com.showPost.view.ShowPost;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 
 public class UpdateBoardView {
 
 	private JFrame frame;
 	private JTextField TitleField;
-	private JTextField ContentField;
+	private JTextArea ContentField;
 	private JButton UpdateBtn;
 	private JLabel WriterLabel;
 	private boardVO vo;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -53,6 +60,7 @@ public class UpdateBoardView {
 	 */
 	private void initialize(String writer, String title, String content, int boardNum) {
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.setBounds(100, 100, 678, 580);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -69,12 +77,7 @@ public class UpdateBoardView {
 		frame.getContentPane().add(TitleField);
 		TitleField.setText(vo.getTitle());
 		TitleField.setColumns(10);
-
-		ContentField = new JTextField();
-		ContentField.setBounds(103, 103, 401, 305);
-		frame.getContentPane().add(ContentField);
-		ContentField.setText(vo.getContent());
-		ContentField.setColumns(10);
+		Border textArBorder = BorderFactory.createLineBorder(Color.black);
 
 		UpdateBtn = new JButton("수정하기");
 		UpdateBtn.setBounds(499, 465, 97, 23);
@@ -108,6 +111,17 @@ public class UpdateBoardView {
 		WriterLabel.setBounds(551, 23, 57, 15);
 		WriterLabel.setText(vo.getName());
 		frame.getContentPane().add(WriterLabel);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(103, 103, 401, 305);
+		frame.getContentPane().add(scrollPane);
+		
+				ContentField = new JTextArea();
+				scrollPane.setViewportView(ContentField);
+				ContentField.setLineWrap(true);
+				ContentField.setBorder(new EmptyBorder(0, 0, 0, 0));
+				ContentField.setText(vo.getContent());
+				ContentField.setColumns(10);
 	}
 
 	public void showWindow() {

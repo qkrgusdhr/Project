@@ -3,8 +3,10 @@ package com.InsertBoard.View;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import com.board.control.BoardDAO;
 import com.board.control.BoardDAOImpl;
@@ -14,13 +16,16 @@ import com.boardlist.View.BoardListView;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class BoardInsertView {
 
 	private JFrame frame;
 	private JTextField TitleField;
 	private JTextField WriterField;
-	private JTextField ContentField;
+	private JTextArea ContentField;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -80,6 +85,8 @@ public class BoardInsertView {
 		frame.getContentPane().add(InsertBtn);
 		
 		TitleField = new JTextField();
+		Border Title = BorderFactory.createLineBorder(Color.black);
+		TitleField.setBorder(Title);
 		TitleField.setBounds(108, 70, 342, 31);
 		frame.getContentPane().add(TitleField);
 		TitleField.setColumns(10);
@@ -88,10 +95,18 @@ public class BoardInsertView {
 		WriterField.setBounds(475, 70, 116, 31);
 		frame.getContentPane().add(WriterField);
 		WriterField.setColumns(10);
+		Border textArBorder = BorderFactory.createLineBorder(Color.black);
 		
-		ContentField = new JTextField();
-		ContentField.setBounds(108, 111, 485, 332);
-		frame.getContentPane().add(ContentField);
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(106, 111, 485, 332);
+		frame.getContentPane().add(scrollPane);
+		
+		ContentField = new JTextArea();
+		scrollPane.setViewportView(ContentField);
+		ContentField.setBorder(textArBorder);
+		ContentField.setBackground(new Color(255, 255, 255));
+		ContentField.setWrapStyleWord(true);
+		ContentField.setLineWrap(true);
 		ContentField.setColumns(10);
 	}
 	

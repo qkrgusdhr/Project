@@ -17,7 +17,7 @@ import com.board.control.BoardDAOImpl;
 import com.board.control.boardVO;
 import com.boardlist.View.BoardListView;
 
-
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
@@ -28,8 +28,12 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import javax.swing.border.EmptyBorder;
+
 
 
 
@@ -81,11 +85,6 @@ public class ShowPost {
 		JLabel lblTitle = new JLabel("Title: " + title);
 		lblTitle.setBounds(123, 117, 716, 15);
 		frame.getContentPane().add(lblTitle);
-
-		JLabel lblContent = new JLabel("Content: " + content);
-		lblContent.setBackground(new Color(255, 255, 255));
-		lblContent.setBounds(123, 153, 716, 297);
-		frame.getContentPane().add(lblContent);
 
 		JButton UpdateBtn = new JButton("수정");
 		UpdateBtn.addActionListener(new ActionListener() {
@@ -210,6 +209,18 @@ public class ShowPost {
 		});
 		Submit.setBounds(891, 727, 117, 23);
 		frame.getContentPane().add(Submit);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBorder(null);
+		scrollPane_1.setBounds(123, 153, 726, 297);
+		frame.getContentPane().add(scrollPane_1);
+		
+				JTextArea ContentArea = new JTextArea(content);
+				ContentArea.setEditable(false);
+				ContentArea.setWrapStyleWord(true);
+				ContentArea.setBorder(new EmptyBorder(0, 0, 0, 0));
+				scrollPane_1.setViewportView(ContentArea);
+				ContentArea.setBackground(new Color(255, 255, 255));
 	}
 
 	public void showWindow() {
