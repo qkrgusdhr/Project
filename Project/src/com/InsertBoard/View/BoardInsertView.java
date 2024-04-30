@@ -13,6 +13,7 @@ import com.boardlist.View.BoardListView;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class BoardInsertView {
 
@@ -49,6 +50,8 @@ public class BoardInsertView {
 	 */
 	private void initialize(String Writer, String title, String Content) {
 		frame = new JFrame();
+		frame.setBackground(new Color(255, 255, 255));
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.setBounds(100, 100, 721, 540);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
