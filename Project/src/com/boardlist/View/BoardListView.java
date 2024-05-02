@@ -5,10 +5,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.InsertBoard.View.BoardInsertView;
-import com.board.control.BoardDAO;
-import com.board.control.BoardDAOImpl;
-import com.board.control.boardVO;
+import com.board.control.*;
 import com.showPost.view.ShowPost;
+
 
 import java.util.List;
 
@@ -30,28 +29,35 @@ public class BoardListView {
 	private JButton nextButton;
 	private JButton InsertBtn;
 	private JTextField Searching;
+	private final String userID;
+	
+	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
-				BoardListView window = new BoardListView();
+				BoardListView window = new BoardListView(null);
 				window.frame.setVisible(true);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		});
 	}
 
-	public BoardListView() {
-		initialize();
+	public BoardListView(String id) {
+		this.userID = id;
+		
+		initialize(userID);
 		populateTable(1, 10);
 		InsertBtn = new JButton("게시물 등록");
 		InsertBtn.setBounds(822, 652, 124, 23);
 		InsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BoardInsertView view = new BoardInsertView(null, null, null);
+				BoardInsertView view = new BoardInsertView(userID, null, null);
 				view.showWindow();
-				frame.dispose();
+				closeWindow();
+
 			}
 		});
 		frame.getContentPane().add(InsertBtn);
@@ -78,7 +84,7 @@ public class BoardListView {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				BoardDAO dao = new BoardDAOImpl();
-				List<boardVO> SearchResult = dao.search(String.valueOf(comboBox.getSelectedItem()),
+				List<BoardVO> SearchResult = dao.search(String.valueOf(comboBox.getSelectedItem()),
 						Searching.getText());
 				if (!SearchResult.isEmpty()) {
 					populateTableWithSearchResults(SearchResult);
@@ -92,7 +98,7 @@ public class BoardListView {
 
 	}
 
-	private void initialize() {
+	private void initialize(String id) {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
@@ -103,12 +109,12 @@ public class BoardListView {
 		tableModel.addColumn("작성자");
 		tableModel.addColumn("제목");
 		tableModel.addColumn("시간");
-		
+
 		table = new JTable(tableModel);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setShowGrid(false);
 		table.setDragEnabled(false);
-		
+
 		DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
 		centerRender.setHorizontalAlignment(SwingConstants.CENTER);
 		for (int i = 0; i < table.getColumnCount(); i++) {
@@ -138,7 +144,8 @@ public class BoardListView {
 						System.out.println("클릭된 제목: " + boardNum);
 
 						BoardDAO dao = new BoardDAOImpl();
-						boardVO vo = new boardVO();
+						BoardVO vo = new BoardVO();
+
 						vo.setNum(boardNum);
 						dao.selectBoard(vo);
 						String writer = vo.getName();
@@ -146,7 +153,7 @@ public class BoardListView {
 						String content = vo.getContent();
 						if (writer != null && title != null && content != null) { // 데이터가 있는지 확인
 							// 데이터가 있다면 해당 정보를 이용하여 ShowPost 창을 열거나 처리합니다.
-							ShowPost post = new ShowPost(writer, title, content, boardNum);
+							ShowPost post = new ShowPost(userID, writer, title, content, boardNum);
 							post.showWindow();
 							frame.dispose();
 						} else {
@@ -157,6 +164,12 @@ public class BoardListView {
 			}
 
 		});
+		
+		
+
+		JLabel lblNewLabel_1 = new JLabel("사용자 : " + userID);
+		lblNewLabel_1.setBounds(112, 23, 109, 23);
+		frame.getContentPane().add(lblNewLabel_1);
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(98, 56, 848, 586);
@@ -195,12 +208,12 @@ public class BoardListView {
 
 	}
 
-	private void populateTable(int currentPage, int itemsPerPage) {
+	public void populateTable(int currentPage, int itemsPerPage) {
 
 		this.currentPage = currentPage;
 		this.itemsPerPage = itemsPerPage;
 		BoardDAO dao = new BoardDAOImpl();
-		List<boardVO> boardData = dao.select();
+		List<BoardVO> boardData = dao.select();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0); // 기존의 테이블 내용 삭제
 		int startIndex = (currentPage - 1) * itemsPerPage;
@@ -219,11 +232,11 @@ public class BoardListView {
 		}
 	}
 
-	private void populateTableWithSearchResults(List<boardVO> searchResults) {
+	private void populateTableWithSearchResults(List<BoardVO> searchResults) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
 
-		for (boardVO vo : searchResults) {
+		for (BoardVO vo : searchResults) {
 			model.addRow(vo.toArray());
 		}
 
@@ -235,4 +248,11 @@ public class BoardListView {
 	public void showWindow() {
 		frame.setVisible(true);
 	}
+
+	public void closeWindow() {
+		frame.setVisible(false);
+	}
+
+	
+
 }

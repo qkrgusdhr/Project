@@ -10,7 +10,7 @@ import javax.swing.border.Border;
 
 import com.board.control.BoardDAO;
 import com.board.control.BoardDAOImpl;
-import com.board.control.boardVO;
+import com.board.control.BoardVO;
 import com.boardlist.View.BoardListView;
 
 import java.awt.event.ActionListener;
@@ -18,14 +18,15 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.JLabel;
 
 public class BoardInsertView {
 
 	private JFrame frame;
 	private JTextField TitleField;
-	private JTextField WriterField;
 	private JTextArea ContentField;
 	private JScrollPane scrollPane;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -46,14 +47,15 @@ public class BoardInsertView {
 	/**
 	 * Create the application.
 	 */
-	public BoardInsertView(String Writer, String title, String Content) {
-		initialize(Writer, title, Content);
+	public BoardInsertView(String id, String title, String Content) {
+		
+		initialize(id, title, Content);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String Writer, String title, String Content) {
+	private void initialize(String id, String title, String Content) {
 		frame = new JFrame();
 		frame.setBackground(new Color(255, 255, 255));
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
@@ -64,20 +66,21 @@ public class BoardInsertView {
 		JButton InsertBtn = new JButton("등록");
 		InsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boardVO vo = new boardVO();
+				BoardVO vo = new BoardVO();
 				BoardDAO dao = new BoardDAOImpl();
+				
+				
+				BoardListView view = new BoardListView(id);
 				String ntitle = TitleField.getText();
-				String nwriter = WriterField.getText();
 				String ncontent = ContentField.getText();
 				
 				
-				vo.setName(nwriter);
+				vo.setName(id);
 				vo.setTitle(ntitle);
 				vo.setContent(ncontent);
 				dao.insert(vo);
-				
+				view.populateTable(1, 10);
 				frame.dispose();
-				BoardListView view = new BoardListView();
 				view.showWindow();
 			}
 		});
@@ -90,14 +93,10 @@ public class BoardInsertView {
 		TitleField.setBounds(108, 70, 342, 31);
 		frame.getContentPane().add(TitleField);
 		TitleField.setColumns(10);
-		
-		WriterField = new JTextField();
-		WriterField.setBounds(475, 70, 116, 31);
-		frame.getContentPane().add(WriterField);
-		WriterField.setColumns(10);
 		Border textArBorder = BorderFactory.createLineBorder(Color.black);
 		
 		scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.white);
 		scrollPane.setBounds(106, 111, 485, 332);
 		frame.getContentPane().add(scrollPane);
 		
@@ -108,9 +107,19 @@ public class BoardInsertView {
 		ContentField.setWrapStyleWord(true);
 		ContentField.setLineWrap(true);
 		ContentField.setColumns(10);
+		
+		
+		lblNewLabel = new JLabel("작성자 : " + id);
+		lblNewLabel.setBounds(462, 70, 129, 31);
+		frame.getContentPane().add(lblNewLabel);
 	}
 	
 	public void showWindow() {
 		frame.setVisible(true);
+		
+	}
+	
+	public void closeWindow() {
+		frame.setVisible(false);
 	}
 }
