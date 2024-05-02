@@ -3,20 +3,22 @@ package com.board.control;
 import java.util.List;
 
 public interface BoardDAO {
-	public int insert (boardVO vo);
+	public int insert (BoardVO vo);
 	
-	public int update(boardVO vo);
+	public int update(BoardVO vo);
 	
-	public int delete(boardVO vo);
+	public int delete(BoardVO vo);
 	
-	public boardVO search(boardVO vo);
+	public BoardVO search(BoardVO vo);
 	
-	public List<boardVO> select();
+	public List<BoardVO> select();
 	
-	public List<boardVO> search(String search, String searchString);
+	public List<BoardVO> search(String search, String searchString);
 	
 	public int getCount();
 	
-	public int selectBoard(boardVO vo);
+	public int selectBoard(BoardVO vo);
+	
+	public String SearchUser(BoardVO vo);
 	
 }
