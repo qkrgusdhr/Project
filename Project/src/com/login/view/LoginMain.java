@@ -12,12 +12,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import com.boardlist.View.BoardListView;
 import com.join.view.JoinView;
 import com.user.dao.LoginDAO;
 import com.user.vo.LoginVO;
 
-
+import next.Screen;
 
 public class LoginMain {
 
@@ -141,20 +140,14 @@ public class LoginMain {
 				String pw = new String(passwordField.getPassword());
 				
 				LoginDAO loginDAO  = new LoginDAO();
-				
 				ArrayList<LoginVO> res = loginDAO.list(id, pw);
-				
 				if(id.isEmpty() || pw.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "아이디와 패스워드를 확인하세요");
 				}else if(!res.isEmpty()){
 					JOptionPane.showMessageDialog(btnNewButton, "login!!");
+					Screen screen = new Screen();
 					frmEd.dispose();
-					LoginVO vo = new LoginVO(id, pw);
-					id = vo.getId();
-					System.out.println(id);
-					BoardListView view = new BoardListView(id);
-					
-					view.showWindow();
+					screen.showWindow();
 					
 				}else {
 					JOptionPane.showMessageDialog(btnNewButton, "login fail");
