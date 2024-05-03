@@ -28,7 +28,7 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int insert(BoardVO vo) {
+	public int insert(boardVO vo) {
 		// TODO Auto-generated method stub
 		try {
 			conn = DriverManager.getConnection(url, user, password);
@@ -57,7 +57,7 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int update(BoardVO vo) {
+	public int update(boardVO vo) {
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			String sql = "update boardtest set title = ?, content = ?,reg_date = SYSDATE WHERE NUM = ?";
@@ -75,7 +75,7 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int delete(BoardVO vo) {
+	public int delete(boardVO vo) {
 		// TODO Auto-generated method stub
 		try {
 			conn = DriverManager.getConnection(url, user, password);
@@ -92,22 +92,22 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public BoardVO search(BoardVO vo) {
+	public boardVO search(boardVO vo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<BoardVO> select() {
+	public List<boardVO> select() {
 		// TODO Auto-generated method stub
-		List<BoardVO> list = new ArrayList<BoardVO>();
+		List<boardVO> list = new ArrayList<boardVO>();
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			String sql = "select num, title, writer, reg_date from boardtest order by num desc";
 			pstmt = conn.prepareStatement(sql);
 			res = pstmt.executeQuery();
 			while (res.next()) {
-				BoardVO vo = new BoardVO();
+				boardVO vo = new boardVO();
 				vo.setNum(res.getInt("num"));
 				vo.setTitle(res.getString("title"));
 				vo.setName(res.getString("writer"));
@@ -136,9 +136,9 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<BoardVO> search(String search, String searchString) {
+	public List<boardVO> search(String search, String searchString) {
 		// TODO Auto-generated method stub
-		List<BoardVO> list = new ArrayList<BoardVO>();
+		List<boardVO> list = new ArrayList<boardVO>();
 		try {
 			conn = DriverManager.getConnection(url, user, password);
 			String sql =  "SELECT num, title, content, reg_date, writer FROM boardtest WHERE " + search + " LIKE ?";
@@ -147,7 +147,7 @@ public class BoardDAOImpl implements BoardDAO {
 			pstmt.setString(1, "%" + searchString + "%");
 			res = pstmt.executeQuery();
 			while (res.next()) {
-				BoardVO vo = new BoardVO();
+				boardVO vo = new boardVO();
 				vo.setNum(res.getInt("num"));
 				vo.setTitle(res.getString("title"));
 				vo.setName(res.getString("writer"));
@@ -199,17 +199,17 @@ public class BoardDAOImpl implements BoardDAO {
 		return count;
 	}
 
-	public int selectBoard(BoardVO vo) {
+	public int selectBoard(boardVO vo) {
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "SELECT L.id, B.TITLE, B.CONTENT FROM boardTest B JOIN LOGIN L ON B.writer = L.id WHERE B.num = ?";
+			String sql = "SELECT writer, title, content from boardtest where num = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getNum());
 			ResultSet rs = pstmt.executeQuery();
 
-			   while (rs.next()) { // 결과가 있다면
+			   if (rs.next()) { // 결과가 있다면
 		            // 각 열에서 데이터를 가져옴
-		            String writer = rs.getString("id");
+		            String writer = rs.getString("writer");
 		            String title = rs.getString("title");
 		            String content = rs.getString("content");
 
@@ -231,25 +231,5 @@ public class BoardDAOImpl implements BoardDAO {
 			e.printStackTrace();
 		}
 		return 0;
-	}
-	
-	public String SearchUser(BoardVO vo) {
-		String writer = null;
-		try {
-			conn = DriverManager.getConnection(url, user, password);
-			String sql = "SELECT L.id FROM boardTest B JOIN LOGIN L ON B.writer = L.id WHERE B.num = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, vo.getNum());
-			ResultSet rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				writer = rs.getString("id");
-			}
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		
-		return writer;
 	}
 }
