@@ -10,9 +10,10 @@ public class BoardVO {
 	private String content;
 	private Date regDate;
 	private String setUserID;
+	private int LikeCnt;
 	
 	 public Object[] toArray() {
-	        return new Object[] { getNum(), getName(), getTitle(), getRegDate() };
+	        return new Object[] { getNum(), getName(), getTitle(), getRegDate(), getLikeCnt() };
 	    }
 	
 	public int getNum() {
@@ -52,6 +53,15 @@ public class BoardVO {
 
 	public void setSetUserID(String setUserID) {
 		this.setUserID = setUserID;
+	}
+
+	public void setLikeCnt(int LikeCnt) {
+		this.LikeCnt = LikeCnt;
+		
+	}
+	
+	public int getLikeCnt() {
+		return LikeCnt;
 	}
 
 	
