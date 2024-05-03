@@ -7,15 +7,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-
+import javax.swing.border.Border;
 
 import com.board.control.BoardDAO;
 import com.board.control.BoardDAOImpl;
-import com.board.control.BoardVO;
-
+import com.board.control.boardVO;
+import com.boardlist.View.BoardListView;
 import com.showPost.view.ShowPost;
 
-
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -29,9 +29,9 @@ public class UpdateBoardView {
 	private JTextArea ContentField;
 	private JButton UpdateBtn;
 	private JLabel WriterLabel;
-	private BoardVO vo;
+	private boardVO vo;
 	private JScrollPane scrollPane;
-	private String userID;
+
 	/**
 	 * Launch the application.
 	 */
@@ -39,7 +39,7 @@ public class UpdateBoardView {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UpdateBoardView window = new UpdateBoardView(null, null, null, null, 0);
+					UpdateBoardView window = new UpdateBoardView(null, null, null, 0);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,15 +51,14 @@ public class UpdateBoardView {
 	/**
 	 * Create the application.
 	 */
-	public UpdateBoardView(String userID,String id, String title, String content, int boardNum) {
-		this.userID = userID;
-		initialize(id, title, content, boardNum);
+	public UpdateBoardView(String writer, String title, String content, int boardNum) {
+		initialize(writer, title, content, boardNum);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(String id, String title, String content, int boardNum) {
+	private void initialize(String writer, String title, String content, int boardNum) {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.setBounds(100, 100, 678, 580);
@@ -67,8 +66,8 @@ public class UpdateBoardView {
 		frame.getContentPane().setLayout(null);
 
 		// boardVO 객체 생성 및 초기화
-		vo = new BoardVO();
-		vo.setName(id);
+		vo = new boardVO();
+		vo.setName(writer);
 		vo.setTitle(title);
 		vo.setContent(content);
 		vo.setNum(boardNum);
@@ -78,7 +77,7 @@ public class UpdateBoardView {
 		frame.getContentPane().add(TitleField);
 		TitleField.setText(vo.getTitle());
 		TitleField.setColumns(10);
-		
+		Border textArBorder = BorderFactory.createLineBorder(Color.black);
 
 		UpdateBtn = new JButton("수정하기");
 		UpdateBtn.setBounds(499, 465, 97, 23);
@@ -91,18 +90,18 @@ public class UpdateBoardView {
 				String newContent = ContentField.getText();
 
 				BoardDAO dao = new BoardDAOImpl();
-				BoardVO vo = new BoardVO();
+				boardVO vo = new boardVO();
 				vo.setNum(boardNum);
 				vo.setTitle(newTitle);
 				vo.setContent(newContent);
 				dao.update(vo);
 				frame.dispose();
 
-				
-				ShowPost showPost = new ShowPost(userID, id, newTitle, newContent, boardNum);
+				ShowPost showPost = new ShowPost(writer, newTitle, newContent, boardNum);
 				showPost.showWindow();
 				frame.dispose();
-				
+				BoardListView boardlist = new BoardListView();
+				boardlist.showWindow();
 				
 			}
 		});

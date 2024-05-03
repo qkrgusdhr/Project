@@ -3,13 +3,12 @@ package com.board.control;
 import java.util.Date;
 
 
-public class BoardVO {
+public class boardVO {
 	private int num;
 	private String name;
 	private String title;
 	private String content;
 	private Date regDate;
-	private String setUserID;
 	
 	 public Object[] toArray() {
 	        return new Object[] { getNum(), getName(), getTitle(), getRegDate() };
@@ -44,14 +43,6 @@ public class BoardVO {
 	}
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
-	}
-
-	public String getSetUserID() {
-		return setUserID;
-	}
-
-	public void setSetUserID(String setUserID) {
-		this.setUserID = setUserID;
 	}
 
 	
