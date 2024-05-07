@@ -352,8 +352,8 @@ public class LoginMain {
 				String id = textId.getText();
 				String pw = new String(passwordField.getPassword());
 				
-				LoginDAO loginDAO  = new LoginDAO();
 				
+				LoginDAO loginDAO  = new LoginDAO();
 				ArrayList<LoginVO> res = loginDAO.list(id, pw);
 				
 				if(id.isEmpty() || pw.isEmpty()) {
@@ -363,7 +363,7 @@ public class LoginMain {
 					frmEd.dispose();
 					LoginVO vo = new LoginVO(id, pw);
 					id = vo.getId();
-					System.out.println(id);
+					
 					BoardListView view = new BoardListView(id);
 					
 					view.showWindow();
@@ -411,6 +411,10 @@ public class LoginMain {
 			}
 		});
         frmEd.getContentPane().add(btnJoin);
+    }
+    
+    public void ShowWindow() {
+    	frmEd.setVisible(true);
     }
 }
 

@@ -173,7 +173,7 @@ public class BoardListView {
 		
 
 		JLabel lblNewLabel_1 = new JLabel("사용자 : " + userID);
-		lblNewLabel_1.setBounds(112, 23, 109, 23);
+		lblNewLabel_1.setBounds(112, 23, 162, 23);
 		frame.getContentPane().add(lblNewLabel_1);
 
 		JScrollPane scrollPane = new JScrollPane(table);

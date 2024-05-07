@@ -23,11 +23,16 @@ public class JoinDAO {
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "INSERT INTO userinfotest(id, pw)";
-			sql += " values(?,?)";
+			String sql = "INSERT INTO member(id, pwd, name, tel, dogname, dogsex, dogbirth)";
+			sql += " values(?,?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,joinVo.getId());
-			pstmt.setString(2,joinVo.getPw());
+	         pstmt.setString(2,joinVo.getPwd());
+	         pstmt.setString(3,joinVo.getName());
+	         pstmt.setString(4,joinVo.getTel());
+	         pstmt.setString(5,joinVo.getDogname());
+	         pstmt.setString(6,joinVo.getDogsex());
+	         pstmt.setString(7,joinVo.getDogbirth());
 			result = pstmt.executeUpdate();
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -56,7 +61,7 @@ public class JoinDAO {
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "SELECT ID FROM USERINFOTEST WHERE ID = ?";
+			String sql = "SELECT ID FROM member WHERE ID = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();

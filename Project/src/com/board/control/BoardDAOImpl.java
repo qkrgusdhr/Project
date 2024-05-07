@@ -32,7 +32,7 @@ public class BoardDAOImpl implements BoardDAO {
 		// TODO Auto-generated method stub
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "INSERT INTO boardtest (num, title, content, writer, reg_date) VALUES (SEQ_BOARD_NUM.NEXTVAL, ?, ?, ?, SYSDATE)";
+			String sql = "INSERT INTO board (num, title, content, writer, reg_date) VALUES (SEQ_BOARD_NUM.NEXTVAL, ?, ?, ?, SYSDATE)";
 
 			pstmt = conn.prepareStatement(sql);
 
@@ -60,7 +60,7 @@ public class BoardDAOImpl implements BoardDAO {
 	public int update(BoardVO vo) {
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "update boardtest set title = ?, content = ?,reg_date = SYSDATE WHERE NUM = ?";
+			String sql = "update board set title = ?, content = ?,reg_date = SYSDATE WHERE NUM = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContent());
@@ -79,7 +79,7 @@ public class BoardDAOImpl implements BoardDAO {
 		// TODO Auto-generated method stub
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "delete from boardtest where num = ?";
+			String sql = "delete from board where num = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getNum());
 			pstmt.executeUpdate();
@@ -103,7 +103,7 @@ public class BoardDAOImpl implements BoardDAO {
 		List<BoardVO> list = new ArrayList<BoardVO>();
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "select num, title, writer, reg_date, likecnt from boardtest order by num desc";
+			String sql = "select num, title, writer, reg_date, likecnt from board order by num desc";
 			pstmt = conn.prepareStatement(sql);
 			res = pstmt.executeQuery();
 			while (res.next()) {
@@ -141,7 +141,7 @@ public class BoardDAOImpl implements BoardDAO {
 		List<BoardVO> list = new ArrayList<BoardVO>();
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql =  "SELECT num, title, content, reg_date, writer FROM boardtest WHERE " + search + " LIKE ?";
+			String sql =  "SELECT num, title, content, reg_date, writer FROM board WHERE " + search + " LIKE ?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + searchString + "%");
@@ -187,7 +187,7 @@ public class BoardDAOImpl implements BoardDAO {
 
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "SELECT * FROM boardtest";
+			String sql = "SELECT * FROM board";
 			res = pstmt.executeQuery(sql);
 
 			if (res.next()) {
@@ -202,7 +202,7 @@ public class BoardDAOImpl implements BoardDAO {
 	public int selectBoard(BoardVO vo) {
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "SELECT L.id, B.TITLE, B.CONTENT, B.LIKECNT FROM boardTest B JOIN LOGIN L ON B.writer = L.id WHERE B.num = ?";
+			String sql = "SELECT m.id, B.TITLE, B.CONTENT, B.LIKECNT FROM board B JOIN member m ON B.writer = m.id WHERE B.num = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getNum());
 			ResultSet rs = pstmt.executeQuery();
@@ -238,7 +238,7 @@ public class BoardDAOImpl implements BoardDAO {
 		String writer = null;
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "SELECT L.id FROM boardTest B JOIN LOGIN L ON B.writer = L.id WHERE B.num = ?";
+			String sql = "SELECT m.id FROM board B JOIN member m ON B.writer = m.id WHERE B.num = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getNum());
 			ResultSet rs = pstmt.executeQuery();
@@ -259,7 +259,7 @@ public class BoardDAOImpl implements BoardDAO {
 		// TODO Auto-generated method stub
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "UPDATE BOARDTEST SET LIKECNT = LIKECNT + 1 WHERE NUM = ?";
+			String sql = "UPDATE BOARD SET LIKECNT = LIKECNT + 1 WHERE NUM = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getNum());
 			pstmt.executeUpdate();

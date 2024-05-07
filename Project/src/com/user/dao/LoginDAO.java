@@ -16,7 +16,7 @@ public class LoginDAO {
     
     public ArrayList<LoginVO> list(String id, String pw) {
         ArrayList<LoginVO> list = new ArrayList<>();
-        String sql = "SELECT * FROM LOGIN WHERE ID = ? AND PW = ?";
+        String sql = "SELECT * FROM member WHERE ID = ? AND PWD = ?";
         
         try {
             conDB();
@@ -27,7 +27,8 @@ public class LoginDAO {
             
             while (rs.next()) {
                 String userId = rs.getString("id");
-                String userPw = rs.getString("pw");
+                String userPw = rs.getString("pwd");
+               
                
                 LoginVO userVO = new LoginVO(userId, userPw);
                 list.add(userVO);
