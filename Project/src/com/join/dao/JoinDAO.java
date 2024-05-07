@@ -8,33 +8,27 @@ import java.sql.ResultSet;
 import com.join.VO.JoinVo;
 
 public class JoinDAO {
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	String user = "c##green";
-	String password = "GREEN1234";
+	private static final String driver = "oracle.jdbc.driver.OracleDriver";
+	private static final String url = "jdbc:oracle:thin:@localhost:1521/xe";
+	private static final String user = "green";
+	private static final String password = "1234";
 	
 	private Connection conn;
 	private PreparedStatement pstmt;
 	
-	public boolean insertData(JoinVo joinVo) {
-		boolean result = false;
+	
+	public int insertData(JoinVo joinVo) {
+		int result = 0;
 		pstmt = null;
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "INSERT INTO member(id, pwd, name, tel, dogname, dogsex, dogbirth)";
-			sql += " values(?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO userinfotest(id, pw)";
+			sql += " values(?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,joinVo.getId());
-			pstmt.setString(2,joinVo.getPwd());
-			pstmt.setString(3,joinVo.getName());
-			pstmt.setString(4,joinVo.getTel());
-			pstmt.setString(5,joinVo.getDogname());
-			pstmt.setString(6,joinVo.getDogsex());
-			pstmt.setString(7,joinVo.getDogbirth());
-			pstmt.executeUpdate();
-			
-			result = true; 
+			pstmt.setString(2,joinVo.getPw());
+			result = pstmt.executeUpdate();
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -56,15 +50,13 @@ public class JoinDAO {
             e.printStackTrace();
         }
     }
-	
-	
 	public boolean isIdExist(String id) {
 		boolean result = false;
 		ResultSet rs = null;
 		try {
 			Class.forName(driver);
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "SELECT ID FROM member WHERE ID = ?";
+			String sql = "SELECT ID FROM USERINFOTEST WHERE ID = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
