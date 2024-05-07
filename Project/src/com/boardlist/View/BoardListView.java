@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.InsertBoard.View.BoardInsertView;
 import com.board.control.*;
+import com.main.view.MainView;
 import com.showPost.view.ShowPost;
 
 
@@ -96,6 +97,20 @@ public class BoardListView {
 			}
 		});
 		frame.getContentPane().add(btnNewButton);
+		
+		JButton BackMainBtn = new JButton("Main");
+		BackMainBtn.setBounds(98, 652, 97, 23);
+		BackMainBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				MainView view = new MainView(userID);
+				view.ShowWindow();
+				frame.dispose();
+			}
+		});
+		frame.getContentPane().add(BackMainBtn);
 
 	}
 
@@ -209,7 +224,7 @@ public class BoardListView {
 
 		});
 		frame.setBounds(100, 100, 974, 767);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}
 
@@ -257,7 +272,4 @@ public class BoardListView {
 	public void closeWindow() {
 		frame.setVisible(false);
 	}
-
-	
-
 }

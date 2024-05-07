@@ -15,6 +15,8 @@ public interface BoardDAO {
 	
 	public List<BoardVO> search(String search, String searchString);
 	
+	public List<BoardVO> LikeCntASC();
+	
 	public int getCount();
 	
 	public int selectBoard(BoardVO vo);

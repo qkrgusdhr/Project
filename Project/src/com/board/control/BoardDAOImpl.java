@@ -141,7 +141,7 @@ public class BoardDAOImpl implements BoardDAO {
 		List<BoardVO> list = new ArrayList<BoardVO>();
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql =  "SELECT num, title, content, reg_date, writer FROM board WHERE " + search + " LIKE ?";
+			String sql = "SELECT num, title, content, reg_date, writer FROM board WHERE " + search + " LIKE ?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + searchString + "%");
@@ -207,33 +207,32 @@ public class BoardDAOImpl implements BoardDAO {
 			pstmt.setInt(1, vo.getNum());
 			ResultSet rs = pstmt.executeQuery();
 
-			   while (rs.next()) { // 결과가 있다면
-		            // 각 열에서 데이터를 가져옴
-		            String writer = rs.getString("id");
-		            String title = rs.getString("title");
-		            String content = rs.getString("content");
-		            int LikeCnt = rs.getInt("likecnt");
-		            // 가져온 데이터를 vo에 설정
-		            vo.setName(writer);
-		            vo.setTitle(title);
-		            vo.setContent(content);
-		            vo.setLikeCnt(LikeCnt);
-		        }
-
-			
+			while (rs.next()) { // 결과가 있다면
+				// 각 열에서 데이터를 가져옴
+				String writer = rs.getString("id");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				int LikeCnt = rs.getInt("likecnt");
+				// 가져온 데이터를 vo에 설정
+				vo.setName(writer);
+				vo.setTitle(title);
+				vo.setContent(content);
+				vo.setLikeCnt(LikeCnt);
+			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-		}try {
+		}
+		try {
 			conn.close();
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return 0;
 	}
-	
+
 	public String SearchUser(BoardVO vo) {
 		String writer = null;
 		try {
@@ -242,15 +241,15 @@ public class BoardDAOImpl implements BoardDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getNum());
 			ResultSet rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				writer = rs.getString("id");
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
+
 		return writer;
 	}
 
@@ -263,13 +262,49 @@ public class BoardDAOImpl implements BoardDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, vo.getNum());
 			pstmt.executeUpdate();
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
-		return 0; 
+
+		return 0;
 	}
-	
-	
+
+	@Override
+	public List<BoardVO> LikeCntASC() {
+		List<BoardVO> list = new ArrayList<BoardVO>();
+		try {
+			conn = DriverManager.getConnection(url, user, password);
+			String sql = "select num, title, writer, reg_date, likecnt from board order by LIKECNT desc";
+			pstmt = conn.prepareStatement(sql);
+			res = pstmt.executeQuery();
+			while (res.next()) {
+				BoardVO vo = new BoardVO();
+				vo.setNum(res.getInt("num"));
+				vo.setTitle(res.getString("title"));
+				vo.setName(res.getString("writer"));
+				vo.setRegDate(res.getDate("reg_date"));
+				vo.setLikeCnt(res.getInt("likecnt"));
+				list.add(vo);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				res.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			pstmt.close();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return list;
+	}
+
 }

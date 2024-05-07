@@ -226,8 +226,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-import com.boardlist.View.BoardListView;
+
 import com.join.view.JoinView;
+import com.main.view.MainView;
 import com.user.dao.LoginDAO;
 import com.user.vo.LoginVO;
 
@@ -364,9 +365,10 @@ public class LoginMain {
 					LoginVO vo = new LoginVO(id, pw);
 					id = vo.getId();
 					
-					BoardListView view = new BoardListView(id);
 					
-					view.showWindow();
+					MainView mainView = new MainView(id);
+					mainView.ShowWindow();
+					
 					
 				}else {
 					JOptionPane.showMessageDialog(btnNewButton, "login fail");
