@@ -54,7 +54,9 @@ public class BoardListView {
 		initialize(userID);
 		populateTable(1, 10);
 		InsertBtn = new JButton("게시물 등록");
-		InsertBtn.setBounds(822, 652, 124, 23);
+		InsertBtn.setIcon(new ImageIcon(BoardListView.class.getResource("/img/baidu-line.png")));
+		InsertBtn.setBackground(new Color(192, 192, 192));
+		InsertBtn.setBounds(804, 727, 142, 34);
 		InsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BoardInsertView view = new BoardInsertView(userID, null, null);
@@ -66,21 +68,24 @@ public class BoardListView {
 		frame.getContentPane().add(InsertBtn);
 
 		JLabel lblNewLabel = new JLabel("검색조건");
-		lblNewLabel.setBounds(436, 23, 73, 23);
+		lblNewLabel.setBounds(435, 90, 73, 31);
 		frame.getContentPane().add(lblNewLabel);
 
 		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.setModel(new DefaultComboBoxModel<>(new String[] { "title", "content", "writer" }));
-		comboBox.setBounds(521, 23, 104, 23);
+		comboBox.setBounds(520, 90, 104, 31);
 		frame.getContentPane().add(comboBox);
 
 		Searching = new JTextField();
-		Searching.setBounds(637, 24, 209, 22);
+		Searching.setBounds(636, 90, 209, 31);
 		frame.getContentPane().add(Searching);
 		Searching.setColumns(10);
 
-		JButton btnNewButton = new JButton("search");
-		btnNewButton.setBounds(858, 23, 88, 23);
+		JButton btnNewButton = new JButton("검색");
+		btnNewButton.setBackground(new Color(192, 192, 192));
+		
+		btnNewButton.setIcon(new ImageIcon(BoardListView.class.getResource("/img/search-line.png")));
+		btnNewButton.setBounds(858, 90, 88, 31);
 		btnNewButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -100,7 +105,9 @@ public class BoardListView {
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton BackMainBtn = new JButton("Main");
-		BackMainBtn.setBounds(98, 652, 97, 23);
+		BackMainBtn.setBackground(new Color(192, 192, 192));
+		BackMainBtn.setIcon(new ImageIcon(BoardListView.class.getResource("/img/home-8-line.png")));
+		BackMainBtn.setBounds(12, 728, 97, 33);
 		BackMainBtn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -112,6 +119,16 @@ public class BoardListView {
 			}
 		});
 		frame.getContentPane().add(BackMainBtn);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(BoardListView.class.getResource("/img/diary.jpg")));
+		lblNewLabel_3.setBounds(53, 29, 151, 42);
+		frame.getContentPane().add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(BoardListView.class.getResource("/img/dog2.jpg")));
+		lblNewLabel_2.setBounds(12, 10, 49, 65);
+		frame.getContentPane().add(lblNewLabel_2);
 
 	}
 
@@ -190,23 +207,28 @@ public class BoardListView {
 		
 
 		JLabel lblNewLabel_1 = new JLabel("사용자 : " + userID);
-		lblNewLabel_1.setBounds(112, 23, 162, 23);
+		lblNewLabel_1.setBounds(12, 90, 179, 31);
 		frame.getContentPane().add(lblNewLabel_1);
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setBorder(new EmptyBorder(0,0,0,0));
-		scrollPane.setBounds(98, 56, 848, 586);
+		scrollPane.setBounds(12, 131, 934, 586);
 		frame.getContentPane().add(scrollPane);
 
 		JPanel paginationPanel = new JPanel();
-		paginationPanel.setBounds(98, 685, 848, 33);
+		paginationPanel.setBackground(new Color(255, 255, 255));
+		paginationPanel.setBounds(12, 771, 934, 43);
 		frame.getContentPane().add(paginationPanel);
 
 		populateTable(1, 10);
-		JButton prevButton = new JButton("Prev");
+		JButton prevButton = new JButton("");
+		prevButton.setBackground(new Color(255, 255, 255));
+		prevButton.setIcon(new ImageIcon(BoardListView.class.getResource("/img/arrow-drop-left-line.png")));
+		prevButton.setBorder(new EmptyBorder(0,0,0,0));
 		paginationPanel.add(prevButton);
 
 		currentPageLabel = new JLabel("Page: " + currentPage);
+		currentPageLabel.setFont(new Font("굴림", Font.BOLD, 12));
 		paginationPanel.add(currentPageLabel);
 		prevButton.addActionListener(e -> {
 			if (currentPage > 1) {
@@ -217,8 +239,11 @@ public class BoardListView {
 		});
 
 		currentPageLabel.setText("Page: " + currentPage);
-		nextButton = new JButton("Next");
+		nextButton = new JButton("");
+		nextButton.setBackground(new Color(255, 255, 255));
+		nextButton.setIcon(new ImageIcon(BoardListView.class.getResource("/img/arrow-drop-right-line.png")));
 		paginationPanel.add(nextButton);
+		nextButton.setBorder(new EmptyBorder(0,0,0,0));
 		nextButton.addActionListener(e -> {
 			currentPage++;
 			currentPageLabel.setText("Page: " + currentPage);
@@ -226,7 +251,7 @@ public class BoardListView {
 			populateTable(currentPage, itemsPerPage);
 
 		});
-		frame.setBounds(100, 100, 974, 767);
+		frame.setBounds(100, 100, 974, 863);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}

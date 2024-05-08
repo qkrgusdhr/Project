@@ -38,6 +38,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
+import java.awt.Font;
 
 public class ShowPost {
 	private JFrame frame;
@@ -90,19 +92,24 @@ public class ShowPost {
 	private void initialize(String writer, String title, String content, int LikeCnt) {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
-		frame.setBounds(100, 100, 1113, 961);
+		frame.setBounds(100, 100, 952, 883);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
-		JLabel lblWriter = new JLabel("writer: " + writer);
-		lblWriter.setBounds(123, 73, 200, 15);
+		JLabel lblWriter = new JLabel("작성자 : " + writer);
+		lblWriter.setFont(new Font("굴림", Font.BOLD, 14));
+		lblWriter.setBounds(22, 81, 200, 34);
 		frame.getContentPane().add(lblWriter);
 
-		JLabel lblTitle = new JLabel("Title: " + title);
-		lblTitle.setBounds(123, 117, 716, 15);
+		JLabel lblTitle = new JLabel("제목 : " + title);
+		lblTitle.setFont(new Font("굴림", Font.BOLD, 18));
+		lblTitle.setBounds(22, 125, 716, 32);
 		frame.getContentPane().add(lblTitle);
 
 		JButton UpdateBtn = new JButton("수정");
+		UpdateBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		UpdateBtn.setIcon(new ImageIcon(ShowPost.class.getResource("/img/edit-line.png")));
+		UpdateBtn.setBackground(new Color(192, 192, 192));
 		UpdateBtn.addActionListener(new ActionListener() {
 
 			@Override
@@ -127,10 +134,13 @@ public class ShowPost {
 
 			}
 		});
-		UpdateBtn.setBounds(797, 620, 97, 23);
+		UpdateBtn.setBounds(711, 536, 97, 34);
 		frame.getContentPane().add(UpdateBtn);
 
 		JButton DeleteBtn = new JButton("삭제");
+		DeleteBtn.setBackground(new Color(192, 192, 192));
+		DeleteBtn.setFont(new Font("굴림", Font.BOLD, 12));
+		DeleteBtn.setIcon(new ImageIcon(ShowPost.class.getResource("/img/delete-bin-line.png")));
 		DeleteBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BoardVO vo = new BoardVO();
@@ -149,11 +159,11 @@ public class ShowPost {
 
 			}
 		});
-		DeleteBtn.setBounds(921, 620, 97, 23);
+		DeleteBtn.setBounds(820, 536, 97, 34);
 		frame.getContentPane().add(DeleteBtn);
 
 		CommentField = new JTextField();
-		CommentField.setBounds(267, 870, 610, 21);
+		CommentField.setBounds(131, 798, 657, 32);
 		frame.getContentPane().add(CommentField);
 		CommentField.addKeyListener(new KeyListener() {
 
@@ -181,6 +191,9 @@ public class ShowPost {
 		CommentField.setColumns(10);
 
 		Submit = new JButton("등록");
+		Submit.setBackground(new Color(240, 240, 240));
+		Submit.setFont(new Font("굴림", Font.BOLD, 12));
+		Submit.setIcon(new ImageIcon(ShowPost.class.getResource("/img/message-3-fill.png")));
 		Submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -223,22 +236,26 @@ public class ShowPost {
 			}
 		});
 
-		Submit.setBounds(901, 869, 117, 23);
+		Submit.setBounds(800, 797, 117, 33);
 		frame.getContentPane().add(Submit);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBorder(null);
-		scrollPane_1.setBounds(123, 210, 895, 297);
+		scrollPane_1.setBounds(22, 167, 895, 297);
 		frame.getContentPane().add(scrollPane_1);
 		
 				JTextArea ContentArea = new JTextArea(content);
 				scrollPane_1.setViewportView(ContentArea);
+				ContentArea.setFont(new Font("굴림", Font.BOLD, 14));
 				ContentArea.setEditable(false);
 				ContentArea.setWrapStyleWord(true);
 				ContentArea.setBorder(new EmptyBorder(0, 0, 0, 0));
 				ContentArea.setBackground(new Color(255, 255, 255));
 
-		JButton BackBtn = new JButton("뒤로가기");
+		JButton BackBtn = new JButton("");
+		BackBtn.setBackground(new Color(255, 255, 255));
+		BackBtn.setIcon(new ImageIcon(ShowPost.class.getResource("/img/arrow-go-back-line.png")));
+		BackBtn.setBorder(new EmptyBorder(0,0,0,0));
 		BackBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -247,11 +264,11 @@ public class ShowPost {
 				view.showWindow();
 			}
 		});
-		BackBtn.setBounds(158, 869, 97, 23);
+		BackBtn.setBounds(22, 798, 97, 34);
 		frame.getContentPane().add(BackBtn);
 						
 								JScrollPane scrollPane = new JScrollPane();
-								scrollPane.setBounds(158, 653, 860, 207);
+								scrollPane.setBounds(22, 580, 895, 207);
 								frame.getContentPane().add(scrollPane);
 								scrollPane.setEnabled(true);
 								
@@ -260,8 +277,11 @@ public class ShowPost {
 										CommentForm.setBackground(new Color(255, 255, 255));
 										CommentForm.setLayout(new BoxLayout(CommentForm, BoxLayout.Y_AXIS));
 										
-										JButton btnNewButton = new JButton("추천");
-										btnNewButton.setBounds(533, 524, 80, 52);
+										JButton btnNewButton = new JButton("");
+										btnNewButton.setIcon(new ImageIcon(ShowPost.class.getResource("/img/thumb-up-fill.png")));
+										btnNewButton.setBackground(new Color(255, 255, 255));
+										btnNewButton.setBorder(new EmptyBorder(0,0,0,0));
+										btnNewButton.setBounds(424, 474, 80, 52);
 										btnNewButton.addActionListener(new ActionListener() {
 											
 											@Override
@@ -277,8 +297,20 @@ public class ShowPost {
 										frame.getContentPane().add(btnNewButton);
 										
 										LikeLabel = new JLabel("추천수 : " + LikeCnt);
-										LikeLabel.setBounds(524, 586, 104, 32);
+										LikeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+										LikeLabel.setFont(new Font("나눔고딕", Font.BOLD, 15));
+										LikeLabel.setBounds(415, 536, 104, 32);
 										frame.getContentPane().add(LikeLabel);
+										
+										JLabel lblNewLabel_1 = new JLabel("");
+										lblNewLabel_1.setIcon(new ImageIcon(ShowPost.class.getResource("/img/diary.jpg")));
+										lblNewLabel_1.setBounds(53, 25, 151, 42);
+										frame.getContentPane().add(lblNewLabel_1);
+										
+										JLabel lblNewLabel_2 = new JLabel("");
+										lblNewLabel_2.setIcon(new ImageIcon(ShowPost.class.getResource("/img/dog2.jpg")));
+										lblNewLabel_2.setBounds(12, 6, 49, 65);
+										frame.getContentPane().add(lblNewLabel_2);
 	}
 
 	public void displayComments() {
@@ -291,7 +323,7 @@ public class ShowPost {
 			commentPanel.setBackground(Color.white);
 
 			JLabel nameLabel = new JLabel(comment.getWriter());
-			nameLabel.setPreferredSize(new Dimension(50, 20));
+			nameLabel.setPreferredSize(new Dimension(100, 20));
 
 			JLabel commentLabel = new JLabel(comment.getContent());
 			commentLabel.setPreferredSize(new Dimension(500, 20));
@@ -303,6 +335,9 @@ public class ShowPost {
 			CommentField.setText("");
 
 			deleteButton = new JButton("삭제");
+			deleteButton.setBackground(new Color(255, 255, 255));
+			deleteButton.setBorder(new EmptyBorder(0,0,0,0));
+			deleteButton.setIcon(new ImageIcon(ShowPost.class.getResource("/img/chat-delete-line.png")));
 			deleteButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// 삭제 버튼을 눌렀을 때 실행되는 동작 구현

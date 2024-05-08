@@ -44,10 +44,11 @@ public class UpdateUserInfoView {
 	private JPasswordField passwordCheck;
 	private JTextField txttel;
 	private JLabel lblNewLabel_2;
-	private String UserID;
+	
 	JoinDAO joinDAO = new JoinDAO();
 	JoinVo joinVo = new JoinVo();
 	private JTextField textField;
+	private JButton btnBack;
 
 	/**
 	 * Launch the application.
@@ -69,7 +70,7 @@ public class UpdateUserInfoView {
 	 * Create the application.
 	 */
 	public UpdateUserInfoView(String UserID) {
-		this.UserID = UserID;
+		
 		initialize(UserID);
 	}
 
@@ -368,6 +369,24 @@ public class UpdateUserInfoView {
 		textField.setBackground(Color.WHITE);
 		textField.setBounds(65, 250, 66, 21);
 		frame.getContentPane().add(textField);
+		
+		btnBack = new JButton("back");
+		btnBack.setForeground(Color.WHITE);
+		btnBack.setFont(new Font("Arial", Font.BOLD, 14));
+		btnBack.setBorder(new EmptyBorder(0, 0, 0, 0));
+		btnBack.setBackground(new Color(221, 160, 221));
+		btnBack.setBounds(110, 473, 102, 23);
+		btnBack.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				MainView mainView = new MainView(UserID);
+				mainView.ShowWindow();
+				frame.dispose();
+			}
+		});
+		frame.getContentPane().add(btnBack);
 
 	}
 

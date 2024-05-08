@@ -32,6 +32,7 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 public class MainView {
 	private final String UserID;
 	private JFrame frame;
@@ -95,12 +96,14 @@ public class MainView {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(192, 192, 192));
-		panel.setBounds(12, 125, 240, 682);
+		panel.setBounds(11, 85, 240, 722);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("게시판");
-		lblNewLabel_1.setBounds(72, 51, 94, 59);
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setIcon(new ImageIcon(MainView.class.getResource("/img/list-check.png")));
+		lblNewLabel_1.setBounds(48, 53, 144, 59);
 		panel.add(lblNewLabel_1);
 		lblNewLabel_1.setFont(new Font("경기천년제목 Medium", Font.PLAIN, 33));
 		lblNewLabel_1.addMouseListener(new MouseListener() {
@@ -140,28 +143,30 @@ public class MainView {
 		
 		JLabel lblNewLabel = new JLabel("사용자 : " + UserID);
 		lblNewLabel.setFont(new Font("굴림", Font.BOLD, 15));
-		lblNewLabel.setBounds(657, 67, 164, 53);
+		lblNewLabel.setBounds(654, 29, 164, 53);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(MainView.class.getResource("/img/dog2.jpg")));
-		lblNewLabel_2.setBounds(25, 55, 49, 65);
+		lblNewLabel_2.setBounds(25, 10, 49, 65);
 		frame.getContentPane().add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setIcon(new ImageIcon(MainView.class.getResource("/img/diary.jpg")));
-		lblNewLabel_3.setBounds(66, 74, 151, 42);
+		lblNewLabel_3.setBounds(66, 29, 151, 42);
 		frame.getContentPane().add(lblNewLabel_3);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(192, 192, 192));
-		panel_1.setBounds(263, 125, 759, 682);
+		panel_1.setBounds(263, 85, 759, 722);
 		
 		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("인기 게시물");
-		lblNewLabel_1_1.setBounds(12, 10, 161, 59);
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1_1.setIcon(new ImageIcon(MainView.class.getResource("/img/thumb-up-fill.png")));
+		lblNewLabel_1_1.setBounds(12, 10, 201, 59);
 		panel_1.add(lblNewLabel_1_1);
 		lblNewLabel_1_1.setFont(new Font("경기천년제목 Medium", Font.PLAIN, 33));
 		
@@ -226,17 +231,18 @@ public class MainView {
 		
 		JPanel panel_2_1 = new JPanel();
 		panel_2_1.setBackground(new Color(255, 255, 255));
-		panel_2_1.setBounds(12, 384, 349, 288);
+		panel_2_1.setBounds(12, 424, 349, 288);
 		panel_1.add(panel_2_1);
 		
 		JPanel panel_2_1_1 = new JPanel();
 		panel_2_1_1.setBackground(new Color(255, 255, 255));
-		panel_2_1_1.setBounds(387, 384, 349, 288);
+		panel_2_1_1.setBounds(387, 424, 349, 288);
 		panel_1.add(panel_2_1_1);
 		
 		JLabel lblNewLabel_4 = new JLabel("정보수정");
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4.setFont(new Font("굴림", Font.BOLD, 14));
-		lblNewLabel_4.setBounds(833, 74, 78, 42);
+		lblNewLabel_4.setBounds(830, 34, 78, 42);
 		lblNewLabel_4.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -272,6 +278,47 @@ public class MainView {
 			}
 		});
 		frame.getContentPane().add(lblNewLabel_4);
+		
+		JLabel LogOutBtn = new JLabel("로그아웃");
+		LogOutBtn.setHorizontalAlignment(SwingConstants.CENTER);
+		LogOutBtn.setFont(new Font("굴림", Font.BOLD, 14));
+		LogOutBtn.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				LoginMain loginMain = new LoginMain();
+				loginMain.ShowWindow();
+				frame.dispose();
+			}
+		});
+		
+		LogOutBtn.setBounds(920, 34, 78, 42);
+		frame.getContentPane().add(LogOutBtn);
 		
 		
 	}
