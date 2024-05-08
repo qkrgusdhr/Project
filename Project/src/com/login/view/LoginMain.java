@@ -242,7 +242,7 @@ public class LoginMain {
     private JButton btnNewButton;
     private JLabel lblNewLabel_2;
     private JLabel lblNewLabel_3;
-
+    
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -368,6 +368,7 @@ public class LoginMain {
 					
 					MainView mainView = new MainView(id);
 					mainView.ShowWindow();
+					frmEd.dispose();
 					
 					
 				}else {
@@ -413,7 +414,26 @@ public class LoginMain {
 			}
 		});
         frmEd.getContentPane().add(btnJoin);
-    }
+        
+        JButton btnForgot = new JButton("Forgot password?");
+        btnForgot.setForeground(new Color(0, 0, 0));
+        btnForgot.setFont(new Font("Arial", Font.PLAIN, 10));
+        btnForgot.setBorder(new EmptyBorder(0, 0, 0, 0));
+        btnForgot.setBackground(Color.WHITE);
+        btnForgot.setBounds(121, 466, 107, 13);
+        frmEd.getContentPane().add(btnForgot);
+        btnForgot.addActionListener(new ActionListener() {
+
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            PasswordSearchView searchView = new PasswordSearchView();
+            searchView.showWindow();
+         }
+           
+        });
+        }
+    
     
     public void ShowWindow() {
     	frmEd.setVisible(true);

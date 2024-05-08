@@ -141,7 +141,7 @@ public class BoardDAOImpl implements BoardDAO {
 		List<BoardVO> list = new ArrayList<BoardVO>();
 		try {
 			conn = DriverManager.getConnection(url, user, password);
-			String sql = "SELECT num, title, content, reg_date, writer FROM board WHERE " + search + " LIKE ?";
+			String sql = "SELECT num, title, content, reg_date, writer, LIKECNT FROM board WHERE " + search + " LIKE ?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + searchString + "%");
@@ -152,6 +152,7 @@ public class BoardDAOImpl implements BoardDAO {
 				vo.setTitle(res.getString("title"));
 				vo.setName(res.getString("writer"));
 				vo.setRegDate(res.getDate("reg_date"));
+				vo.setLikeCnt(res.getInt("LIKECNT"));
 
 				list.add(vo);
 			}

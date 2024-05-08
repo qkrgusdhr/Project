@@ -1,6 +1,7 @@
 package com.boardlist.View;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -137,6 +138,7 @@ public class BoardListView {
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setCellRenderer(centerRender);
 		}
+		table.getTableHeader().setBackground(Color.white);
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(45);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -192,6 +194,7 @@ public class BoardListView {
 		frame.getContentPane().add(lblNewLabel_1);
 
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBorder(new EmptyBorder(0,0,0,0));
 		scrollPane.setBounds(98, 56, 848, 586);
 		frame.getContentPane().add(scrollPane);
 

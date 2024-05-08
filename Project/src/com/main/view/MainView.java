@@ -1,6 +1,7 @@
 package com.main.view;
 
 import java.awt.EventQueue;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,16 +15,22 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+
 import com.board.control.BoardDAO;
 import com.board.control.BoardDAOImpl;
 import com.board.control.BoardVO;
 import com.boardlist.View.BoardListView;
+import com.login.view.LoginMain;
 import com.showPost.view.ShowPost;
+import com.updateUserInfo.view.UpdateUserInfoView;
 
 import java.awt.Color;
 
 import javax.swing.*;
 import java.awt.Font;
+import javax.swing.border.EmptyBorder;
+
+
 
 public class MainView {
 	private final String UserID;
@@ -65,11 +72,11 @@ public class MainView {
 	private void initialize(String UserID) {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
-		frame.setBounds(100, 100, 1004, 803);
+		frame.setBounds(100, 100, 1050, 856);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
 		tableModel = new DefaultTableModel();
+		
 		
 		tableModel.addColumn("No.");
 		tableModel.addColumn("작성자");
@@ -78,15 +85,92 @@ public class MainView {
 		tableModel.addColumn("추천");
 		
 		table = new JTable(tableModel);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setShowGrid(false);
-		table.setDragEnabled(false);
+		
 
 		DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
 		centerRender.setHorizontalAlignment(SwingConstants.CENTER);
 		for(int i = 0; i < table.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setCellRenderer(centerRender);
 		}
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(192, 192, 192));
+		panel.setBounds(12, 125, 240, 682);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("게시판");
+		lblNewLabel_1.setBounds(72, 51, 94, 59);
+		panel.add(lblNewLabel_1);
+		lblNewLabel_1.setFont(new Font("경기천년제목 Medium", Font.PLAIN, 33));
+		lblNewLabel_1.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				BoardListView view = new BoardListView(UserID);
+				view.showWindow();
+				frame.dispose();
+			}
+		});
+		
+		JLabel lblNewLabel = new JLabel("사용자 : " + UserID);
+		lblNewLabel.setFont(new Font("굴림", Font.BOLD, 15));
+		lblNewLabel.setBounds(657, 67, 164, 53);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(MainView.class.getResource("/img/dog2.jpg")));
+		lblNewLabel_2.setBounds(25, 55, 49, 65);
+		frame.getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(MainView.class.getResource("/img/diary.jpg")));
+		lblNewLabel_3.setBounds(66, 74, 151, 42);
+		frame.getContentPane().add(lblNewLabel_3);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(192, 192, 192));
+		panel_1.setBounds(263, 125, 759, 682);
+		
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("인기 게시물");
+		lblNewLabel_1_1.setBounds(12, 10, 161, 59);
+		panel_1.add(lblNewLabel_1_1);
+		lblNewLabel_1_1.setFont(new Font("경기천년제목 Medium", Font.PLAIN, 33));
+		
+		
+		table.setBorder(new EmptyBorder(0, 0, 0, 0));
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setShowGrid(false);
+		table.setDragEnabled(false);
+		table.getTableHeader().setBackground(Color.white);
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(45);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -135,17 +219,25 @@ public class MainView {
 
 		});
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(new Color(192, 192, 192));
-		panel.setBounds(0, 125, 240, 639);
-		frame.getContentPane().add(panel);
-		panel.setLayout(null);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBorder(new EmptyBorder(0,0,0,0));
+		scrollPane.setBounds(12, 79, 724, 254);
+		panel_1.add(scrollPane);
 		
-		JLabel lblNewLabel_1 = new JLabel("게시판");
-		lblNewLabel_1.setBounds(72, 51, 94, 59);
-		panel.add(lblNewLabel_1);
-		lblNewLabel_1.setFont(new Font("경기천년제목 Medium", Font.PLAIN, 33));
-		lblNewLabel_1.addMouseListener(new MouseListener() {
+		JPanel panel_2_1 = new JPanel();
+		panel_2_1.setBackground(new Color(255, 255, 255));
+		panel_2_1.setBounds(12, 384, 349, 288);
+		panel_1.add(panel_2_1);
+		
+		JPanel panel_2_1_1 = new JPanel();
+		panel_2_1_1.setBackground(new Color(255, 255, 255));
+		panel_2_1_1.setBounds(387, 384, 349, 288);
+		panel_1.add(panel_2_1_1);
+		
+		JLabel lblNewLabel_4 = new JLabel("정보수정");
+		lblNewLabel_4.setFont(new Font("굴림", Font.BOLD, 14));
+		lblNewLabel_4.setBounds(833, 74, 78, 42);
+		lblNewLabel_4.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -174,42 +266,12 @@ public class MainView {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				BoardListView view = new BoardListView(UserID);
-				view.showWindow();
+				UpdateUserInfoView infoView = new UpdateUserInfoView(UserID);
+				infoView.ShowWindow();
 				frame.dispose();
 			}
 		});
-		
-		JPanel panel_2_1 = new JPanel();
-		panel_2_1.setBounds(252, 466, 349, 288);
-		frame.getContentPane().add(panel_2_1);
-		
-		JPanel panel_2_1_1 = new JPanel();
-		panel_2_1_1.setBounds(627, 466, 349, 288);
-		frame.getContentPane().add(panel_2_1_1);
-		
-		JLabel lblNewLabel = new JLabel("사용자 : " + UserID);
-		lblNewLabel.setBounds(736, 10, 124, 46);
-		frame.getContentPane().add(lblNewLabel);
-		
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(MainView.class.getResource("/img/dog2.jpg")));
-		lblNewLabel_2.setBounds(25, 55, 49, 65);
-		frame.getContentPane().add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_3 = new JLabel("l");
-		lblNewLabel_3.setIcon(new ImageIcon(MainView.class.getResource("/img/diary.jpg")));
-		lblNewLabel_3.setBounds(66, 74, 151, 42);
-		frame.getContentPane().add(lblNewLabel_3);
-		
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(252, 202, 724, 254);
-		frame.getContentPane().add(scrollPane);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("인기 게시물");
-		lblNewLabel_1_1.setFont(new Font("경기천년제목 Medium", Font.PLAIN, 33));
-		lblNewLabel_1_1.setBounds(252, 133, 161, 59);
-		frame.getContentPane().add(lblNewLabel_1_1);
+		frame.getContentPane().add(lblNewLabel_4);
 		
 		
 	}
@@ -220,8 +282,8 @@ public class MainView {
 	
 	public void populateTable(int currentPage, int itemsPerPage) {
 
-		this.currentPage = currentPage;
-		this.itemsPerPage = itemsPerPage;
+		this.setCurrentPage(currentPage);
+		this.setItemsPerPage(itemsPerPage);
 		BoardDAO dao = new BoardDAOImpl();
 		List<BoardVO> boardData = dao.LikeCntASC();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -238,5 +300,21 @@ public class MainView {
 			}
 		}
 		
+	}
+
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public int getItemsPerPage() {
+		return itemsPerPage;
+	}
+
+	public void setItemsPerPage(int itemsPerPage) {
+		this.itemsPerPage = itemsPerPage;
 	}
 }

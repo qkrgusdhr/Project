@@ -49,7 +49,7 @@ public class ShowPost {
 	private JButton deleteButton;
 	private int LikeCnt;
 	JLabel LikeLabel;
-	private String name;
+	
 
 	BoardVO vo;
 
