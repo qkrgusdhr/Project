@@ -20,6 +20,7 @@ import com.board.control.BoardDAO;
 import com.board.control.BoardDAOImpl;
 import com.board.control.BoardVO;
 import com.boardlist.View.BoardListView;
+import com.calendar.view.CalendarView;
 import com.login.view.LoginMain;
 import com.showPost.view.ShowPost;
 import com.updateUserInfo.view.UpdateUserInfoView;
@@ -100,13 +101,20 @@ public class MainView {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("게시판");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setIcon(new ImageIcon(MainView.class.getResource("/img/list-check.png")));
-		lblNewLabel_1.setBounds(48, 53, 144, 59);
-		panel.add(lblNewLabel_1);
-		lblNewLabel_1.setFont(new Font("경기천년제목 Medium", Font.PLAIN, 33));
-		lblNewLabel_1.addMouseListener(new MouseListener() {
+		JLabel BoardLabel = new JLabel("게시판");
+		BoardLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		BoardLabel.setIcon(new ImageIcon(MainView.class.getResource("/img/list-check.png")));
+		BoardLabel.setBounds(48, 53, 144, 59);
+		panel.add(BoardLabel);
+		BoardLabel.setFont(new Font("경기천년제목 Medium", Font.PLAIN, 33));
+		
+		JLabel CalendarLabel = new JLabel("캘린더");
+		CalendarLabel.setIcon(new ImageIcon(MainView.class.getResource("/img/calendar-check-line.png")));
+		CalendarLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		CalendarLabel.setFont(new Font("경기천년제목 Medium", Font.PLAIN, 33));
+		CalendarLabel.setBounds(48, 185, 144, 59);
+		panel.add(CalendarLabel);
+		BoardLabel.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -137,6 +145,41 @@ public class MainView {
 				// TODO Auto-generated method stub
 				BoardListView view = new BoardListView(UserID);
 				view.showWindow();
+				frame.dispose();
+			}
+		});
+		
+		CalendarLabel.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				CalendarView view = new CalendarView(UserID);
+				view.ShowWindow();
 				frame.dispose();
 			}
 		});
