@@ -220,6 +220,8 @@ public class CalendarView {
 		setTitle();
 		setYear(year);
 		setMonth(month);
+		
+		
 
 	}
 
@@ -266,10 +268,20 @@ public class CalendarView {
 		for (int i = 1; i < week; i++) {
 			CalendarPanel.add(new JLabel(""));
 		}
-
+		
 		for (int i = 1; i <= LastDay; i++) {
+			int day = i;
 			DayButtons = new JButton(String.valueOf(i));
 			CalendarPanel.add(DayButtons);
+			DayButtons.addActionListener(new ActionListener() {
+			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					String selectedDate = String.valueOf(day);
+					System.out.println(year +" " + month +" " +selectedDate);
+				}
+			});
 		}
 	}
 	
