@@ -1,14 +1,15 @@
 package com.boardlist.View;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.InsertBoard.View.BoardInsertView;
-import com.board.control.BoardDAO;
-import com.board.control.BoardDAOImpl;
-import com.board.control.boardVO;
+import com.board.control.*;
+import com.main.view.MainView;
 import com.showPost.view.ShowPost;
+
 
 import java.util.List;
 
@@ -30,55 +31,68 @@ public class BoardListView {
 	private JButton nextButton;
 	private JButton InsertBtn;
 	private JTextField Searching;
+	private final String userID;
+	private int LikeCnt;
+	
+	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
-				BoardListView window = new BoardListView();
+				BoardListView window = new BoardListView(null);
 				window.frame.setVisible(true);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		});
 	}
 
-	public BoardListView() {
-		initialize();
+	public BoardListView(String id) {
+		this.userID = id;
+		
+		initialize(userID);
 		populateTable(1, 10);
 		InsertBtn = new JButton("게시물 등록");
-		InsertBtn.setBounds(822, 652, 124, 23);
+		InsertBtn.setIcon(new ImageIcon(BoardListView.class.getResource("/img/baidu-line.png")));
+		InsertBtn.setBackground(new Color(192, 192, 192));
+		InsertBtn.setBounds(804, 727, 142, 34);
 		InsertBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BoardInsertView view = new BoardInsertView(null, null, null);
+				BoardInsertView view = new BoardInsertView(userID, null, null);
 				view.showWindow();
-				frame.dispose();
+				closeWindow();
+
 			}
 		});
 		frame.getContentPane().add(InsertBtn);
 
 		JLabel lblNewLabel = new JLabel("검색조건");
-		lblNewLabel.setBounds(436, 23, 73, 23);
+		lblNewLabel.setBounds(435, 90, 73, 31);
 		frame.getContentPane().add(lblNewLabel);
 
 		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.setModel(new DefaultComboBoxModel<>(new String[] { "title", "content", "writer" }));
-		comboBox.setBounds(521, 23, 104, 23);
+		comboBox.setBounds(520, 90, 104, 31);
 		frame.getContentPane().add(comboBox);
 
 		Searching = new JTextField();
-		Searching.setBounds(637, 24, 209, 22);
+		Searching.setBounds(636, 90, 209, 31);
 		frame.getContentPane().add(Searching);
 		Searching.setColumns(10);
 
-		JButton btnNewButton = new JButton("search");
-		btnNewButton.setBounds(858, 23, 88, 23);
+		JButton btnNewButton = new JButton("검색");
+		btnNewButton.setBackground(new Color(192, 192, 192));
+		
+		btnNewButton.setIcon(new ImageIcon(BoardListView.class.getResource("/img/search-line.png")));
+		btnNewButton.setBounds(858, 90, 88, 31);
 		btnNewButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				BoardDAO dao = new BoardDAOImpl();
-				List<boardVO> SearchResult = dao.search(String.valueOf(comboBox.getSelectedItem()),
+				List<BoardVO> SearchResult = dao.search(String.valueOf(comboBox.getSelectedItem()),
 						Searching.getText());
 				if (!SearchResult.isEmpty()) {
 					populateTableWithSearchResults(SearchResult);
@@ -89,10 +103,36 @@ public class BoardListView {
 			}
 		});
 		frame.getContentPane().add(btnNewButton);
+		
+		JButton BackMainBtn = new JButton("Main");
+		BackMainBtn.setBackground(new Color(192, 192, 192));
+		BackMainBtn.setIcon(new ImageIcon(BoardListView.class.getResource("/img/home-8-line.png")));
+		BackMainBtn.setBounds(12, 728, 97, 33);
+		BackMainBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				MainView view = new MainView(userID);
+				view.ShowWindow();
+				frame.dispose();
+			}
+		});
+		frame.getContentPane().add(BackMainBtn);
+		
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(BoardListView.class.getResource("/img/diary.jpg")));
+		lblNewLabel_3.setBounds(53, 29, 151, 42);
+		frame.getContentPane().add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(BoardListView.class.getResource("/img/dog2.jpg")));
+		lblNewLabel_2.setBounds(12, 10, 49, 65);
+		frame.getContentPane().add(lblNewLabel_2);
 
 	}
 
-	private void initialize() {
+	private void initialize(String id) {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
@@ -103,17 +143,19 @@ public class BoardListView {
 		tableModel.addColumn("작성자");
 		tableModel.addColumn("제목");
 		tableModel.addColumn("시간");
-		
+		tableModel.addColumn("추천");
+
 		table = new JTable(tableModel);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setShowGrid(false);
 		table.setDragEnabled(false);
-		
+
 		DefaultTableCellRenderer centerRender = new DefaultTableCellRenderer();
 		centerRender.setHorizontalAlignment(SwingConstants.CENTER);
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			table.getColumnModel().getColumn(i).setCellRenderer(centerRender);
 		}
+		table.getTableHeader().setBackground(Color.white);
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(0).setPreferredWidth(45);
 		table.getColumnModel().getColumn(1).setResizable(false);
@@ -122,6 +164,8 @@ public class BoardListView {
 		table.getColumnModel().getColumn(2).setPreferredWidth(250);
 		table.getColumnModel().getColumn(3).setResizable(false);
 		table.getColumnModel().getColumn(3).setPreferredWidth(140);
+		table.getColumnModel().getColumn(4).setResizable(false);
+		table.getColumnModel().getColumn(4).setPreferredWidth(140);
 		table.setRowHeight(38);
 
 		table.setDropMode(DropMode.USE_SELECTION);
@@ -138,15 +182,17 @@ public class BoardListView {
 						System.out.println("클릭된 제목: " + boardNum);
 
 						BoardDAO dao = new BoardDAOImpl();
-						boardVO vo = new boardVO();
+						BoardVO vo = new BoardVO();
+
 						vo.setNum(boardNum);
 						dao.selectBoard(vo);
 						String writer = vo.getName();
 						String title = vo.getTitle();
 						String content = vo.getContent();
+						LikeCnt = vo.getLikeCnt();
 						if (writer != null && title != null && content != null) { // 데이터가 있는지 확인
 							// 데이터가 있다면 해당 정보를 이용하여 ShowPost 창을 열거나 처리합니다.
-							ShowPost post = new ShowPost(writer, title, content, boardNum);
+							ShowPost post = new ShowPost(userID, writer, title, content, boardNum, LikeCnt);
 							post.showWindow();
 							frame.dispose();
 						} else {
@@ -157,20 +203,32 @@ public class BoardListView {
 			}
 
 		});
+		
+		
+
+		JLabel lblNewLabel_1 = new JLabel("사용자 : " + userID);
+		lblNewLabel_1.setBounds(12, 90, 179, 31);
+		frame.getContentPane().add(lblNewLabel_1);
 
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(98, 56, 848, 586);
+		scrollPane.setBorder(new EmptyBorder(0,0,0,0));
+		scrollPane.setBounds(12, 131, 934, 586);
 		frame.getContentPane().add(scrollPane);
 
 		JPanel paginationPanel = new JPanel();
-		paginationPanel.setBounds(98, 685, 848, 33);
+		paginationPanel.setBackground(new Color(255, 255, 255));
+		paginationPanel.setBounds(12, 771, 934, 43);
 		frame.getContentPane().add(paginationPanel);
 
 		populateTable(1, 10);
-		JButton prevButton = new JButton("Prev");
+		JButton prevButton = new JButton("");
+		prevButton.setBackground(new Color(255, 255, 255));
+		prevButton.setIcon(new ImageIcon(BoardListView.class.getResource("/img/arrow-drop-left-line.png")));
+		prevButton.setBorder(new EmptyBorder(0,0,0,0));
 		paginationPanel.add(prevButton);
 
 		currentPageLabel = new JLabel("Page: " + currentPage);
+		currentPageLabel.setFont(new Font("굴림", Font.BOLD, 12));
 		paginationPanel.add(currentPageLabel);
 		prevButton.addActionListener(e -> {
 			if (currentPage > 1) {
@@ -181,8 +239,11 @@ public class BoardListView {
 		});
 
 		currentPageLabel.setText("Page: " + currentPage);
-		nextButton = new JButton("Next");
+		nextButton = new JButton("");
+		nextButton.setBackground(new Color(255, 255, 255));
+		nextButton.setIcon(new ImageIcon(BoardListView.class.getResource("/img/arrow-drop-right-line.png")));
 		paginationPanel.add(nextButton);
+		nextButton.setBorder(new EmptyBorder(0,0,0,0));
 		nextButton.addActionListener(e -> {
 			currentPage++;
 			currentPageLabel.setText("Page: " + currentPage);
@@ -190,17 +251,17 @@ public class BoardListView {
 			populateTable(currentPage, itemsPerPage);
 
 		});
-		frame.setBounds(100, 100, 974, 767);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 974, 863);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	}
 
-	private void populateTable(int currentPage, int itemsPerPage) {
+	public void populateTable(int currentPage, int itemsPerPage) {
 
 		this.currentPage = currentPage;
 		this.itemsPerPage = itemsPerPage;
 		BoardDAO dao = new BoardDAOImpl();
-		List<boardVO> boardData = dao.select();
+		List<BoardVO> boardData = dao.select();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0); // 기존의 테이블 내용 삭제
 		int startIndex = (currentPage - 1) * itemsPerPage;
@@ -219,11 +280,11 @@ public class BoardListView {
 		}
 	}
 
-	private void populateTableWithSearchResults(List<boardVO> searchResults) {
+	private void populateTableWithSearchResults(List<BoardVO> searchResults) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);
 
-		for (boardVO vo : searchResults) {
+		for (BoardVO vo : searchResults) {
 			model.addRow(vo.toArray());
 		}
 
@@ -234,5 +295,9 @@ public class BoardListView {
 
 	public void showWindow() {
 		frame.setVisible(true);
+	}
+
+	public void closeWindow() {
+		frame.setVisible(false);
 	}
 }

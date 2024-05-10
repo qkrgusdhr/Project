@@ -16,7 +16,11 @@ public class LoginDAO {
     
     public ArrayList<LoginVO> list(String id, String pwd) {
         ArrayList<LoginVO> list = new ArrayList<>();
+<<<<<<< HEAD
         String sql = "SELECT * FROM MEMBER WHERE ID = ? AND PWD = ?";
+=======
+        String sql = "SELECT * FROM member WHERE ID = ? AND PWD = ?";
+>>>>>>> branch 'master' of https://github.com/qkrgusdhr/Project.git
         
         try {
             conDB();
@@ -27,8 +31,15 @@ public class LoginDAO {
             
             while (rs.next()) {
                 String userId = rs.getString("id");
+<<<<<<< HEAD
                 String userPwd = rs.getString("pwd");
                 LoginVO userVO = new LoginVO(userId, userPwd);
+=======
+                String userPw = rs.getString("pwd");
+               
+               
+                LoginVO userVO = new LoginVO(userId, userPw);
+>>>>>>> branch 'master' of https://github.com/qkrgusdhr/Project.git
                 list.add(userVO);
             }
         } catch (SQLException e) {
@@ -58,4 +69,6 @@ public class LoginDAO {
             e.printStackTrace();
         }
     }
+
+	
 }
