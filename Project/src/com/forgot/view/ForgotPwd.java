@@ -1,21 +1,29 @@
 package com.forgot.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
+
+import com.join.VO.JoinVo;
+import com.join.dao.JoinDAO;
 
 public class ForgotPwd {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField idField;
+	private JTextField dognameField;
+	
+	JoinDAO joinDAO = new JoinDAO();
+	JoinVo joinVo = new JoinVo();
 
 	/**
 	 * Launch the application.
@@ -48,7 +56,7 @@ public class ForgotPwd {
 		frame.getContentPane().setBackground(new Color(255, 255, 255));
 		frame.getContentPane().setForeground(new Color(0, 0, 0));
 		frame.setBounds(100, 100, 349, 576);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Dog Diary");
@@ -62,12 +70,12 @@ public class ForgotPwd {
 		lblNewLabel_1.setBounds(89, 82, 164, 135);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		textField.setBounds(89, 252, 164, 21);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		idField = new JTextField();
+		idField.setBounds(89, 252, 164, 21);
+		frame.getContentPane().add(idField);
+		idField.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Enter your E-Mail");
+		JLabel lblNewLabel_2 = new JLabel("Enter your ID");
 		lblNewLabel_2.setFont(new Font("굴림", Font.PLAIN, 10));
 		lblNewLabel_2.setBounds(89, 227, 164, 15);
 		frame.getContentPane().add(lblNewLabel_2);
@@ -77,10 +85,10 @@ public class ForgotPwd {
 		lblNewLabel_2_1.setBounds(89, 304, 164, 15);
 		frame.getContentPane().add(lblNewLabel_2_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(89, 329, 164, 21);
-		frame.getContentPane().add(textField_1);
+		dognameField = new JTextField();
+		dognameField.setColumns(10);
+		dognameField.setBounds(89, 329, 164, 21);
+		frame.getContentPane().add(dognameField);
 		
 		JButton btnNewButton = new JButton("Complete");
 		btnNewButton.setBackground(new Color(221, 160, 221));
@@ -88,7 +96,26 @@ public class ForgotPwd {
 		btnNewButton.setBorder(new EmptyBorder(0, 0, 0, 0));
 		btnNewButton.setFont(new Font("Arial", Font.BOLD, 14));
 		btnNewButton.setBounds(101, 404, 129, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				String id = idField.getText();
+				String dogname = dognameField.getText();
+				
+				joinVo.setId(id);
+				joinVo.setDogname(dogname);
+			
+			}
+		});
 		frame.getContentPane().add(btnNewButton);
+	}
+
+	public void showWindow() {
+		// TODO Auto-generated method stub
+		frame.setVisible(true);
+			
 	}
 
 }

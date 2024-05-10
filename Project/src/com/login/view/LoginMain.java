@@ -12,11 +12,13 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+import com.forgot.view.ForgotPwd;
+import com.join.VO.JoinVo;
+import com.join.dao.JoinDAO;
 import com.join.view.JoinView;
 import com.user.dao.LoginDAO;
 import com.user.vo.LoginVO;
-
-import next.Screen;
+import com.userdelete.Userdelete;
 
 public class LoginMain {
 
@@ -142,15 +144,28 @@ public class LoginMain {
 				LoginDAO loginDAO  = new LoginDAO();
 				ArrayList<LoginVO> res = loginDAO.list(id, pw);
 				if(id.isEmpty() || pw.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "아이디와 패스워드를 확인하세요");
+					JOptionPane.showMessageDialog(btnNewButton, "아이디와 패스워드를 확인하세요");
 				}else if(!res.isEmpty()){
-					JOptionPane.showMessageDialog(btnNewButton, "login!!");
-					Screen screen = new Screen();
+					JOptionPane.showMessageDialog(btnNewButton, "환영합니다~!!");
+					JoinVo vo = new JoinVo();
+					JoinDAO dao = new JoinDAO();
+					 
+					vo.setId(id);
+					dao.changeData(vo);
+					
+					String name = vo.getName();
+					String tel = vo.getTel();
+					String dogname = vo.getDogname();
+					String dogsex = vo.getDogsex();
+					String dogbirth = vo.getDogbirth();
+					
+
+					Userdelete screen = new Userdelete(id, tel, name, dogname, dogsex, dogbirth);
 					frmEd.dispose();
 					screen.showWindow();
 					
 				}else {
-					JOptionPane.showMessageDialog(btnNewButton, "login fail");
+					JOptionPane.showMessageDialog(btnNewButton, "로그인을 실패했습니다.");
 				}
 			}
 		});
@@ -206,8 +221,8 @@ public class LoginMain {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				JoinView view = new JoinView();
-				view.showWindow();
+				ForgotPwd show = new ForgotPwd();
+				show.showWindow();
 			}
         	
         });

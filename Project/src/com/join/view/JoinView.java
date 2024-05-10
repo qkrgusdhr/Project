@@ -8,8 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -50,7 +54,6 @@ public class JoinView {
 	private JTextField txtDogSex;
 	private JTextField txtDogBirth;
 	private JLabel lblNewLabel_1;
-	private JTextField textField;
 
 	
 	JoinDAO joinDAO = new JoinDAO();
@@ -58,6 +61,8 @@ public class JoinView {
 	JComboBox<String> year;
 	JComboBox<String> month;
 	JComboBox<String> day;
+	private JLabel pwdLabel;
+	private JLabel lblNewLabel_2;
 	
 	/**
 	 * Launch the application.
@@ -166,10 +171,39 @@ public class JoinView {
 		pwdCheck.setHorizontalAlignment(SwingConstants.LEFT);
 		pwdCheck.setBorder(new MatteBorder(0, 0, 1, 0, Color.black));
 		pwdCheck.setBounds(202, 167, 162, 30);
-		if(pwd.getPassword() == pwdCheck.getPassword()) {
+		pwdCheck.addKeyListener(new KeyListener() {
 			
-		}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				char[] passwordchar = pwd.getPassword();
+				String password = new String(passwordchar);
+				
+				char [] pwdcheckchar = pwdCheck.getPassword();
+				String passwordcheck = new String(pwdcheckchar);
+				if(password.equals(passwordcheck)) {
+					lblNewLabel_2.setText("비밀번호가 일치합니다.");
+					 pwdLabel.setBounds(386, 214, 81, 15);
+					 layeredPane.add(pwdLabel);
+				}else {
+					lblNewLabel_2.setText("비밀번호가 일치하지 않습니다.");
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		layeredPane.add(pwdCheck);
+		
 		
 		//이름칸
 		textname = new JTextField();
@@ -197,7 +231,9 @@ public class JoinView {
 		
 		// 중복검사 버튼
 		JButton btnNewButton = new JButton("중복검사");
-		btnNewButton.setBackground(new Color(255, 255, 255));
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(Color.PINK);
+		btnNewButton.setBorder(new EmptyBorder(0, 0, 0, 0));
 		btnNewButton.setFont(new Font("굴림", Font.PLAIN, 12));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -236,7 +272,8 @@ public class JoinView {
 				String monthed = (String) month.getSelectedItem();
 				String dayed = (String) day.getSelectedItem();
 				String dogbirth = yeared + monthed + dayed;
-
+				
+				
 				joinVo.setId(id);
 				joinVo.setPwd(pwd);
 				joinVo.setName(name);
@@ -247,9 +284,14 @@ public class JoinView {
 				
 //				System.out.println(dogbirth);
 				
+				Pattern passPattern1 = Pattern.compile("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$");
+				Matcher passMatcher = passPattern1.matcher(pwd);
+				if(!passMatcher.find()) {
+					JOptionPane.showInternalMessageDialog(null, "비밀번호는 영문+특수문자+숫자 8자 이상으로 구성되어야 합니다.", "비밀번호 오류", 1);
+				}else {
+				
 				boolean res = joinDAO.insertData(joinVo);
 				if(res == true) {
-					joinDAO.insertData(joinVo);
 					JOptionPane.showMessageDialog(btnCreate, "회원가입에 성공했습니다.");
 					frame.dispose();
 					LoginMain view2 = new LoginMain();
@@ -257,6 +299,7 @@ public class JoinView {
 				
 				}else {
 					JOptionPane.showMessageDialog(btnCreate, "회원가입 실패했습니다.");
+				}
 				}
 			}
 		});
@@ -427,15 +470,12 @@ public class JoinView {
 		 lblNewLabel_1.setBounds(202, 28, 162, 49);
 		 layeredPane.add(lblNewLabel_1);
 		 
-		 textField = new JTextField();
-		 textField.setText("패스워드를 입력해주세요");
-		 textField.setFont(new Font("굴림", Font.PLAIN, 10));
-		 textField.setEditable(false);
-		 textField.setColumns(10);
-		 textField.setBorder(new MatteBorder(0, 0, 0, 0, Color.BLACK));
-		 textField.setBackground(Color.WHITE);
-		 textField.setBounds(376, 176, 147, 21);
-		 layeredPane.add(textField);
+		 lblNewLabel_2 = new JLabel("");
+		 lblNewLabel_2.setFont(new Font("굴림", Font.PLAIN, 10));
+		 lblNewLabel_2.setBounds(373, 182, 175, 15);
+		 layeredPane.add(lblNewLabel_2);
+		 
+		 
 		 
         
 	}

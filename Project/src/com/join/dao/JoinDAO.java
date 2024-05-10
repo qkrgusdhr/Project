@@ -16,6 +16,7 @@ public class JoinDAO {
 	private Connection conn;
 	private PreparedStatement pstmt;
 	
+	//회원가입
 	public boolean insertData(JoinVo joinVo) {
 		boolean result = false;
 		pstmt = null;
@@ -49,15 +50,96 @@ public class JoinDAO {
             if (pstmt != null) {
                 pstmt.close();
             }
-            if (conn != null) {
-                conn.close();
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 	
+	//마이페이지
+	public boolean changeData(JoinVo joinVo) {
+		boolean result = false;
+		pstmt = null;
+		ResultSet rs = null;
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, user, password);
+			String sql = "SELECT name, dogname, dogbirth, dogsex, tel FROM MEMBER WHERE id = ?";
+			;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,joinVo.getId());
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				String name = rs.getString("name");
+				String dogname = rs.getString("dogname");
+				String dogbirth = rs.getString("dogbirth");
+				String dogsex = rs.getString("dogsex");
+				String tel = rs.getString("tel");
+				
+				joinVo.setName(name);
+				joinVo.setDogname(dogname);
+				joinVo.setDogbirth(dogbirth);
+				joinVo.setDogsex(dogsex);
+				joinVo.setTel(tel);
+			}
+			result = true; 
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			closeResources();
+		}
+		return result;
+	}
 	
+	//회원탈퇴
+	public boolean deleteId(String id) {
+		boolean result = false;
+		ResultSet rs = null;
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, user, password);
+			String sql = "DELETE FROM member WHERE ID = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = true;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			closeResources();
+		}
+		return result;
+	}
+	
+	//비밀번호 찾기
+	public boolean foundPassword(String id, String dogname) {
+		boolean result = false;
+		ResultSet rs = null;
+		try {
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, user, password);
+			String sql = "SELECT PWD FROM member WHERE ID = '?' AND DOGNAME = '?'";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, dogname);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = true;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			closeResources();
+		}
+		return result;
+	}
+
+
+	
+	//아이디 중복
 	public boolean isIdExist(String id) {
 		boolean result = false;
 		ResultSet rs = null;
@@ -78,4 +160,7 @@ public class JoinDAO {
 		}
 		return result;
 	}
+
+	
+
 }

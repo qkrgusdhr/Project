@@ -7,28 +7,28 @@ import com.user.vo.LoginVO;
 public class LoginDAO {
     private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String URL = "jdbc:oracle:thin:@localhost:1521/xe";
-    private static final String USER = "green";
-    private static final String PASSWORD = "1234";
+    private static final String USER = "c##green";
+    private static final String PASSWORD = "GREEN1234";
     
     private Connection conn;
     private PreparedStatement pstmt;
     private ResultSet rs;
     
-    public ArrayList<LoginVO> list(String id, String pw) {
+    public ArrayList<LoginVO> list(String id, String pwd) {
         ArrayList<LoginVO> list = new ArrayList<>();
-        String sql = "SELECT * FROM TEST WHERE ID = ? AND PW = ?";
+        String sql = "SELECT * FROM MEMBER WHERE ID = ? AND PWD = ?";
         
         try {
             conDB();
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
-            pstmt.setString(2, pw);
+            pstmt.setString(2, pwd);
             rs = pstmt.executeQuery();
             
             while (rs.next()) {
                 String userId = rs.getString("id");
-                String userPw = rs.getString("pw");
-                LoginVO userVO = new LoginVO(userId, userPw);
+                String userPwd = rs.getString("pwd");
+                LoginVO userVO = new LoginVO(userId, userPwd);
                 list.add(userVO);
             }
         } catch (SQLException e) {

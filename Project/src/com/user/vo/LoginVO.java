@@ -2,11 +2,11 @@ package com.user.vo;
 
 public class LoginVO {
 	private String id;
-	private String pw;
+	private String pwd;
 
-	public LoginVO(String id, String pw) {
+	public LoginVO(String id, String pwd) {
 		 this.id = id;
-		 this.pw = pw;
+		 this.pwd = pwd;
 	}
 
 	public String getId() {
@@ -18,11 +18,11 @@ public class LoginVO {
 	}
 
 	public String getPw() {
-		return pw;
+		return pwd;
 	}
 
-	public void setPw(String pw) {
-		this.pw = pw;
+	public void setPw(String pwd) {
+		this.pwd = pwd;
 	}
 
 }
